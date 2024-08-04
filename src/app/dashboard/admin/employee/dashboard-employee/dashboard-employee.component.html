@@ -1,0 +1,130 @@
+<div class="container-md">
+
+    <form class="d-flex flex-column gap-3 pt-3" [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+        <mat-form-field>
+            <mat-label>Employee ID</mat-label>
+            <input matInput formControlName="employee_id" />
+            <!-- <mat-error *ngIf="employeeForm.get('employee_id').hasError('required')">
+            Employee ID is required
+          </mat-error> -->
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Account ID</mat-label>
+            <input matInput formControlName="account_id" />
+            <!-- <mat-error *ngIf="employeeForm.get('account_id').hasError('required')">
+            Account ID is required
+          </mat-error> -->
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>First Name</mat-label>
+            <input matInput formControlName="first_name" />
+            <!-- <mat-error *ngIf="employeeForm.get('first_name').hasError('required')">
+            First Name is required
+          </mat-error> -->
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Second Name</mat-label>
+            <input matInput formControlName="second_name" />
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>First Surname</mat-label>
+            <input matInput formControlName="first_surname" />
+            <!-- <mat-error *ngIf="employeeForm.get('first_surname').hasError('required')">
+            First Surname is required
+          </mat-error> -->
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Second Surname</mat-label>
+            <input matInput formControlName="second_surname" />
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Document Number</mat-label>
+            <input matInput formControlName="document_number" />
+            @if (employeeForm.get('document_number')?.hasError('required')) {
+            <mat-error>
+                Document Number is required
+            </mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Document Type</mat-label>
+            <mat-select formControlName="document_type">
+                @for (type of documentTypes; track $index) {
+                <mat-option [value]="type">{{ type }}</mat-option>
+                }
+            </mat-select>
+            @if (employeeForm.get('document_type')?.hasError('required')) {
+            <mat-error>
+                Document Type is required
+            </mat-error>
+            }
+
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Phone Number</mat-label>
+            <input matInput formControlName="phone_number" />
+            <!-- <mat-error *ngIf="employeeForm.get('phone_number').hasError('required')">
+            Phone Number is required
+          </mat-error> -->
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Office ID</mat-label>
+            <input matInput formControlName="office_id" />
+            <!-- <mat-error *ngIf="employeeForm.get('office_id').hasError('required')">
+            Office ID is required
+          </mat-error> -->
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Extension</mat-label>
+            <input matInput formControlName="extension" type="number" />
+            <!-- <mat-error *ngIf="employeeForm.get('extension').hasError('required')">
+            Extension is required
+          </mat-error> -->
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Charge ID</mat-label>
+            <input matInput formControlName="charge_id" />
+            <!-- <mat-error *ngIf="employeeForm.get('charge_id').hasError('required')">
+            Charge ID is required
+          </mat-error> -->
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Created At</mat-label>
+            <input matInput formControlName="created_at" type="datetime-local" />
+            <!-- <mat-error *ngIf="employeeForm.get('created_at').hasError('required')">
+            Created At is required
+          </mat-error> -->
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Updated At</mat-label>
+            <input matInput formControlName="updated_at" type="datetime-local" />
+            <!-- <mat-error *ngIf="employeeForm.get('updated_at').hasError('required')">
+            Updated At is required
+          </mat-error> -->
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Boss ID</mat-label>
+            <input matInput formControlName="boss_id" />
+            <!-- <mat-error *ngIf="employeeForm.get('boss_id').hasError('required')">
+            Boss ID is required
+          </mat-error> -->
+        </mat-form-field>
+
+        <button mat-flat-button color="primary" type="submit">Submit</button>
+    </form>
+
+</div>

@@ -1,0 +1,17 @@
+.nav-button{
+    display: flex;
+    justify-content: space-between ;
+    align-items: center;
+    border-radius: 10px;
+    background-color: var(--bs-secondary-bg);
+    text-decoration: none;
+}
+
+.list-style-none{
+    padding: 0;
+    list-style: none;
+}
+
+.logo{
+    max-width: 50px;
+}

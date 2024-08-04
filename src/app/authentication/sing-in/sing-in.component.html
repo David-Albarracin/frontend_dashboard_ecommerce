@@ -1,0 +1,68 @@
+<div class="bg-body-secondary">
+    @if (load)
+    {
+
+    }
+    @else 
+    {
+        <div class="container-xl">
+            <div class="d-flex justify-content-center align-items-center full-height">
+                <mat-card class="text-center p-5">
+                    <mat-card-content>
+                        <div class="d-flex flex-column gap-2">
+                            <span class="h2 text-info">Inicia Sesión</span>
+                            <div class="login-inputs">
+                                <mat-form-field>
+                                    <mat-label>Usuario</mat-label>
+                                    <input [formControl]="login_email" matInput placeholder="pat@gmail.com" required>
+                                    <button mat-icon-button matSuffix>
+                                        <mat-icon fontIcon="person"></mat-icon>
+                                    </button>
+                                    @if (login_email.hasError('minlength') && !login_email.hasError('required')) {
+                                        <mat-error>
+                                            Ingresa un Correo Valido
+                                        </mat-error>
+                                    }@else if (login_email.hasError('required')) {
+                                        <mat-error>
+                                            El Correo es <strong>requerido</strong>
+                                        </mat-error>
+                                    }   
+                                </mat-form-field>
+                            </div>
+                            <div class="login-inputs">
+                                <mat-form-field>
+                                    <mat-label>Contraseña</mat-label>
+                                    <input [formControl]="login_password" matInput [type]="hide ? 'password' : 'text'" required>
+                                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                                        [attr.aria-pressed]="hide">
+                                        <mat-icon [fontIcon]="hide ? 'visibility_off' : 'visibility'"></mat-icon>
+                                    </button>
+                                    @if (login_password.hasError('minlength')) {
+                                        <mat-error>
+                                            Ingresa al Menos 6 Caracteres
+                                        </mat-error>
+                                    }
+                                    @else if (login_password.hasError('required')) {
+                                        <mat-error>
+                                            La Contraseña es <strong>requerida</strong>
+                                        </mat-error>
+                                    }
+                         
+                              
+                    
+                                </mat-form-field>
+                            </div>
+                            <div class="login-button">
+                                <button (click)="singIn()" mat-raised-button color="primary">
+                                    Continuar
+                                    <mat-icon fontIcon="security"></mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+    }
+
+</div>

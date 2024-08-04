@@ -1,0 +1,55 @@
+<div class="container-md">
+    <form class="d-flex flex-column gap-3 pt-3 " [formGroup]="productForm" (ngSubmit)="onSubmit()">
+        <mat-form-field>
+            <mat-label>Code</mat-label>
+            <input matInput formControlName="code" />
+            @if (productForm.get('code')?.hasError('required')) {
+            <mat-error>
+                Code is required
+            </mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" />
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Gama</mat-label>
+            <mat-select formControlName="gama_id">
+                @for (gama of gamas; track $index) {
+                <mat-option [value]="gama.gama_id">{{ gama.name }}</mat-option>
+                }
+            </mat-select>
+            @if (productForm.get('gama_id')?.hasError('required')) {
+            <mat-error>
+                Gama is required
+            </mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description"></textarea>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Stock</mat-label>
+            <input matInput formControlName="stock" type="number" />
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Price Sale</mat-label>
+            <input matInput formControlName="price_sale" type="number" />
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Price Buy</mat-label>
+            <input matInput formControlName="price_buy" type="number" />
+        </mat-form-field>
+
+        <button mat-flat-button color="primary" type="submit">Submit</button>
+    </form>
+
+</div>

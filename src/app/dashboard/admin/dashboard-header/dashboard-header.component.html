@@ -1,0 +1,19 @@
+<mat-toolbar class="justify-content-between rounded-4">
+    <button type="button" mat-icon-button (click)="toggleDrawer()">
+        <mat-icon class="scale-1-5" fontIcon="menu"></mat-icon>
+    </button>
+    <div class="d-flex align-items-center">
+        <app-dashboard-search></app-dashboard-search>
+        <div class="ms-1">
+            <button mat-icon-button [matMenuTriggerFor]="beforeMenu">
+                <mat-icon  class="scale-1-5" fontIcon="account_circle"></mat-icon>
+            </button>
+            <mat-menu #beforeMenu="matMenu" xPosition="after">
+                <button mat-menu-item >Configuración</button>
+                <button (click)="logout()" mat-menu-item>Salir</button>
+            </mat-menu>
+
+        </div>
+    </div>
+
+</mat-toolbar>

@@ -1,0 +1,14 @@
+<mat-drawer-container class="full-height" autosize>
+    <mat-drawer [opened]="true" #drawer class="w-auto"  mode="side" >
+        <app-dashboard-sidebar></app-dashboard-sidebar>
+    </mat-drawer>
+  
+    <div class="container-fluid bg-body-secondary min-vh-100 pt-2">
+        <app-dashboard-header [drawer]="drawer"></app-dashboard-header>
+    
+        <div class="container-fluid pt-2">
+            <router-outlet></router-outlet>
+        </div>
+    </div>  
+  
+</mat-drawer-container>

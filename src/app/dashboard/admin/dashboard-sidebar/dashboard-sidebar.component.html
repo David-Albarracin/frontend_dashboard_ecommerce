@@ -1,0 +1,65 @@
+<div class="d-flex flex-column w-100 h-100 align-content-center">
+
+  <mat-toolbar class="mb-1">
+    <div class="d-flex justify-content-center align-content-center w-100">
+      <img class="logo" src="../../../../assets/img/LOGO.png" alt="logo">
+    </div>
+  </mat-toolbar>
+
+  <p class="text-body-secondary m-0 ps-1 pb-2">
+    Auditoria
+  </p>
+  <ul class="list-style-none">
+    @for (item of menu; track item; let index = $index) {
+
+      <li>
+        <a  [routerLink]="item.url" class="nav-button p-2 mb-2 mx-2 text-decoration-none text-secondary">
+          <div class="d-flex align-items-center">
+            <span class="pt-1">
+              <mat-icon [fontIcon]="item.icon"></mat-icon>
+            </span>
+            <span class="ps-1">
+              {{ item.title }}
+            </span>
+          </div>
+          <span class="pt-1">
+            <mat-icon fontIcon="keyboard_arrow_right"></mat-icon>
+          </span>
+        </a>
+      </li>
+    }
+  </ul>
+
+
+  
+  <!-- <cdk-accordion class="example-accordion">
+    @for (item of menu; track item; let index = $index) {
+      <cdk-accordion-item
+                #accordionItem="cdkAccordionItem"
+                class="py-1"
+                role="button"
+                tabindex="0"
+                [attr.id]="'accordion-header-' + index"
+                [attr.aria-expanded]="accordionItem.expanded"
+                [attr.aria-controls]="'accordion-body-' + index">
+               
+                <div
+                  class="example-accordion-item-body"
+                  role="region"
+                  [style.display]="accordionItem.expanded ? '' : 'none'"
+                  [attr.id]="'accordion-body-' + index"
+                  [attr.aria-labelledby]="'accordion-header-' + index">
+                  <ul>
+                    @for (url of item.urls; track $index) {
+                      <li class="mb-1">
+                        <a class="text-decoration-none text-secondary" [routerLink]="url.path">{{ url.label }}</a>
+                      </li>
+                    }
+  
+                  </ul>
+                </div>
+              </cdk-accordion-item>
+            }
+  </cdk-accordion> -->
+
+</div>
