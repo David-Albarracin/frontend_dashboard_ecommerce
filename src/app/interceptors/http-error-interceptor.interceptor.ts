@@ -6,12 +6,13 @@ import { ErrorDialogComponent } from '../dialogs/error-dialog/error-dialog.compo
 import { inject } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from '../services/auth.service';
+import { DialogPortalService } from '../services/dialog-portal.service';
 
 
 
 export const httpErrorInterceptor: HttpInterceptorFn = (req, next) => {
 
-  const dialog = inject(MatDialog);
+  const dialog = inject(DialogPortalService);
   const authService = inject(AuthService);
 
   // Clone the request and add the authorization header
@@ -40,15 +41,8 @@ export const httpErrorInterceptor: HttpInterceptorFn = (req, next) => {
         console.log('An error occurred:', err);
       }
 
-      // Show error dialog
-      const dialogRef = dialog.open(ErrorDialogComponent, {
-        width: '250px',
-        data: { message: 'An error occurred: ' + err.message }
-      });
-
-      dialogRef.afterClosed().subscribe(() => {
-        // Handle after dialog is closed if needed
-      });
+      //Open dialog Error
+      dialog.openError(err);
 
       // Re-throw the error to propagate it further
       return throwError(() => err); 

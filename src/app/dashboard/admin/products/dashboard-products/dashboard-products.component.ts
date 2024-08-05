@@ -12,6 +12,7 @@ import { catchError } from 'rxjs/internal/operators/catchError';
 import { forkJoin } from 'rxjs/internal/observable/forkJoin';
 import { of } from 'rxjs/internal/observable/of';
 import { switchMap } from 'rxjs/internal/operators/switchMap';
+import { DialogPortalService } from '../../../../services/dialog-portal.service';
 
 @Component({
   selector: 'app-dashboard-products',
@@ -33,7 +34,8 @@ export class DashboardProductsComponent {
   cacheService = inject(CacheService);
   fb = inject(FormBuilder);
   activatedRoute = inject(ActivatedRoute);
-  router = inject(Router)
+  router = inject(Router);
+  dialog = inject(DialogPortalService);
 
 
   ngOnInit(): void {
@@ -42,7 +44,7 @@ export class DashboardProductsComponent {
       takeUntil(this.unsubscribe$),
       switchMap(params => {
         // Obtener los datos de gamas
-        const gamas$ = this.cacheService.httpGetList(this.tableName).pipe(
+        const gamas$ = this.cacheService.httpGetList("gamas").pipe(
           catchError(error => {
             console.error('Error fetching gamas', error);
             return of([]); // Retorna un Observable con un array vacío en caso de error
@@ -67,7 +69,7 @@ export class DashboardProductsComponent {
       ([gamasData, productData]) => {
         this.gamas = gamasData;
         this.product = productData;
-        console.log(productData);
+        console.log(gamasData);
         
         this.createForm(productData);
       },
@@ -83,7 +85,7 @@ export class DashboardProductsComponent {
     this.productForm = this.fb.group({
       code: [data ? data.code : '', Validators.required],
       name: [data ? data.name : ''],
-      gama_id: [data ? data.gama_id : '', Validators.required],
+      productGamaId: [data ? data.productGamaId : '', Validators.required],
       description: [data ? data.description : ''],
       stock: [data ? data.stock : ''],
       price_sale: [data ? data.price_sale : ''],
@@ -94,6 +96,9 @@ export class DashboardProductsComponent {
   onSubmit(): void {
     if (this.productForm.valid) {
       console.log(this.productForm.value);
+      this.cacheService.httpCreate(this.tableName, this.productForm.value).subscribe(res => {
+        this.dialog.openSuccess(res);
+      })
       // Aquí puedes llamar a tu servicio para enviar los datos
     }
   }

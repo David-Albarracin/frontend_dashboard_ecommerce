@@ -25,9 +25,10 @@ export class DashboardProductsListComponent implements OnInit{
   tableName= "productos"
 
   tableHeader=[
-    "id",
-    "username",
-    "enable"
+    "productId",
+    "code",
+    "name",
+    "productGamaId"
   ]
 
   tableData=[]

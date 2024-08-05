@@ -19,37 +19,51 @@ export class CacheService {
       title: "Gestionar Productos",
       icon: "home",
       url: "productos",
-      endPoint: "product"
+      endPoint: "products",
+      inMenu: true
     },
     {
       title: "Gestionar Clientes",
       icon: "people",
       url: "clientes",
-      endPoint: "customer"
+      endPoint: "customers",
+      inMenu: true
     },
     {
       title: "Gestionar Pedidos",
       icon: "category",
       url: "pedidos",
-      endPoint: "order"
+      endPoint: "orders",
+      inMenu: true
     },
     {
       title: "Gestionar Pagos",
       icon: "payment",
       url: "pagos",
-      endPoint: "payment"
+      endPoint: "payments",
+      inMenu: true
     },
     {
       title: "Gestionar Empleados",
       icon: "camera_front",
       url: "empleados",
-      endPoint: "employee"
+      endPoint: "employee",
+      inMenu: true
     },
     {
       title: "Gestionar Oficinas",
       icon: "domain",
       url: "oficinas",
-      endPoint: "office"
+      endPoint: "office",
+      inMenu: true
+    },
+
+    {
+      title: "Gestionar Oficinas",
+      icon: "domain",
+      url: "gamas",
+      endPoint: "product_gamas",
+      inMenu: false
     }
   ];
 
@@ -59,6 +73,8 @@ export class CacheService {
   ) {}
 
   httpGetList = (urlName: string) => {
+    console.log(this.findEndPoint(urlName));
+    
     return this.http.get<[]>(`${this.URL}/${this.findEndPoint(urlName)}`)
   }
 
@@ -68,6 +84,10 @@ export class CacheService {
 
   httpDeleteById = (urlName: string, id:string) => {
     return this.http.delete<{}>(`${this.URL}/${this.findEndPoint(urlName)}/${id}`)
+  }
+
+  httpCreate = (urlName: string, data:any) => {
+    return this.http.post<{}>(`${this.URL}/${this.findEndPoint(urlName)}`, data)
   }
 
 
