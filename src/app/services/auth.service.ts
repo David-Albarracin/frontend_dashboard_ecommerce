@@ -34,7 +34,7 @@ export class AuthService {
 
   singIn(username: string, password: string){
     this.router.navigateByUrl("dashboard");
-    this.http.post<{token:string}>(`${this.URL}/login`, {gmail:username, password:password}).subscribe(res => {
+    this.http.post<{token:string}>(`${this.URL}/login`, {username:username, password:password}).subscribe(res => {
       this.cookieService.set('authToken', res.token);
       this.router.navigateByUrl("dashboard");
     })

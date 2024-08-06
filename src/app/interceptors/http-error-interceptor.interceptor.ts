@@ -18,8 +18,8 @@ export const httpErrorInterceptor: HttpInterceptorFn = (req, next) => {
   // Clone the request and add the authorization header
   const authReq = req.clone({
     setHeaders: {
-      //Authorization: `Bearer ${authService.authToken}`
-      Authorization: 'Basic ' + btoa('pepe:1234')
+      Authorization: `Bearer ${authService.authToken}`
+      //Authorization: 'Basic ' + btoa('pepe:1234')
     }
   });
 

@@ -90,6 +90,10 @@ export class CacheService {
     return this.http.post<{}>(`${this.URL}/${this.findEndPoint(urlName)}`, data)
   }
 
+  httpUpdate= (urlName: string, id:string, data:any) => {
+    return this.http.put<{}>(`${this.URL}/${this.findEndPoint(urlName)}/${id}`, data)
+  }
+
 
   findEndPoint(urlName: string): string | undefined {
     const menuItem = this.menu.find(menu => menu.url === urlName);

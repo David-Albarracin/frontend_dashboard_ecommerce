@@ -1,3 +1,4 @@
+import { Product, ProductGama } from './../../../../models/ecommerceModels';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -69,9 +70,9 @@ export class DashboardProductsComponent {
       ([gamasData, productData]) => {
         this.gamas = gamasData;
         this.product = productData;
-        console.log(gamasData);
+        console.log(productData);
         
-        this.createForm(productData);
+        this.createForm(productData as Product);
       },
       error => {
         console.error('Error in forkJoin', error);
@@ -81,24 +82,34 @@ export class DashboardProductsComponent {
   }
   
 
-  createForm(data?: any): void {
+  createForm(data?: Product): void {
+    // Extracting productGamaId from data if it exists
+    const productGamaId = (data?.productGama as ProductGama)?.productGamaId || '';
+    // Initializing the form with default values or provided data
     this.productForm = this.fb.group({
-      code: [data ? data.code : '', Validators.required],
-      name: [data ? data.name : ''],
-      productGamaId: [data ? data.productGamaId : '', Validators.required],
-      description: [data ? data.description : ''],
-      stock: [data ? data.stock : ''],
-      price_sale: [data ? data.price_sale : ''],
-      price_buy: [data ? data.price_buy : '']
+      code: [data?.code || '', Validators.required],
+      name: [data?.name || ''],
+      productGama: [productGamaId, Validators.required],
+      description: [data?.description || ''],
+      stock: [data?.stock || ''],
+      priceSale: [data?.priceSale || ''],
+      priceBuy: [data?.priceBuy || '']
     });
-  }
+}
 
   onSubmit(): void {
     if (this.productForm.valid) {
-      console.log(this.productForm.value);
-      this.cacheService.httpCreate(this.tableName, this.productForm.value).subscribe(res => {
-        this.dialog.openSuccess(res);
-      })
+      console.log(typeof(this.productForm.value["productGama"]));
+      this.productForm.value["productGama"] as String
+      if ((this.product as any).productId) {
+        this.cacheService.httpUpdate(this.tableName,(this.product as any).productId, this.productForm.value).subscribe(res => {
+          this.dialog.openSuccess(res);
+        })
+      }else{
+        this.cacheService.httpCreate(this.tableName, this.productForm.value).subscribe(res => {
+          this.dialog.openSuccess(res);
+        })
+      }
       // Aquí puedes llamar a tu servicio para enviar los datos
     }
   }

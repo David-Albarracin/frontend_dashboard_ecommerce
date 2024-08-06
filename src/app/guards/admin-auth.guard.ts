@@ -6,6 +6,6 @@ export const adminAuthGuard: CanActivateFn = (route, state) => {
 
   const authService = inject(AuthService);
   const router = inject(Router);
-  //return authService.isAuthenticated()? true: router.navigateByUrl("/singIn");
-  return true;
+  return authService.isAuthenticated()? true: router.navigateByUrl("/singIn");
+  //return true;
 };

@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CacheService } from '../../../../services/cache.service';
 
+
 @Component({
   selector: 'app-dashboard-products-list',
   standalone: true,
@@ -28,7 +29,7 @@ export class DashboardProductsListComponent implements OnInit{
     "productId",
     "code",
     "name",
-    "productGamaId"
+    "productGama"
   ]
 
   tableData=[]
@@ -41,11 +42,16 @@ export class DashboardProductsListComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.cacheService.httpGetList(this.tableName).subscribe(res => {
-      console.log(res);
-      
-      this.tableData = res;
+    this.cacheService.httpGetList(this.tableName).subscribe((res:any) => {
+      this.tableData = res.map((item:any) => {
+        return {
+          ...item,
+          productGama: item.productGama? item.productGama.name : null
+        };
+      });
+      console.log(this.tableData);
     });
+    
     // this.cacheService.httpGetList("gamas").subscribe(res => {
     //   this.gamas = res;
     // });
@@ -54,11 +60,11 @@ export class DashboardProductsListComponent implements OnInit{
   handleActionClick(data: any): void {
     switch (data.type) {
       case "edit":
-        this.router.navigateByUrl(`/dashboard/${this.tableName}/editar/${data.row.id}`)
+        this.router.navigateByUrl(`/dashboard/${this.tableName}/editar/${data.row.productId}`)
         break;
     
       case "delete":
-        this.cacheService.httpDeleteById(this.tableName, data.row.id).subscribe(res => {
+        this.cacheService.httpDeleteById(this.tableName, data.row.productId).subscribe(res => {
           console.log(res);
           
         });
