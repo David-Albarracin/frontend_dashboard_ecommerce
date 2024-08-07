@@ -25,7 +25,7 @@ export class DialogPortalService {
   openSuccess(res:any){
     this.dialog.open(ErrorDialogComponent, {
       width: '250px',
-      data: { type:"success", message: `Se creo ${res} Correctamente`}
+      data: { type:"success", message: `Se creo o se actualizo ${res} Correctamente`}
     })
   }
 

@@ -7,18 +7,22 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CacheService } from '../../../../services/cache.service';
-
+import { MatChipsModule } from '@angular/material/chips';
 
 @Component({
   selector: 'app-dashboard-products-list',
   standalone: true,
-  imports: [DashboardTableComponent, MatButtonModule, MatMenuModule, RouterLink, MatIconModule, MatFormFieldModule, MatInputModule],
+  imports: [DashboardTableComponent, MatButtonModule, MatMenuModule, RouterLink, MatIconModule, MatFormFieldModule, MatInputModule, MatChipsModule],
   templateUrl: './dashboard-products-list.component.html',
   styleUrl: './dashboard-products-list.component.scss'
 })
 export class DashboardProductsListComponent implements OnInit{
 
+  mainTableData=[]
+
   filter = ''
+
+  filterGama:string[] = []
 
   cacheService = inject(CacheService);
   router = inject(Router);
@@ -29,6 +33,7 @@ export class DashboardProductsListComponent implements OnInit{
     "productId",
     "code",
     "name",
+    "stock",
     "productGama"
   ]
 
@@ -49,12 +54,12 @@ export class DashboardProductsListComponent implements OnInit{
           productGama: item.productGama? item.productGama.name : null
         };
       });
-      console.log(this.tableData);
+      this.mainTableData = this.tableData 
     });
     
-    // this.cacheService.httpGetList("gamas").subscribe(res => {
-    //   this.gamas = res;
-    // });
+    this.cacheService.httpGetList("gamas").subscribe(res => {
+      this.gamas = res;
+    });
   }
 
   handleActionClick(data: any): void {
@@ -70,6 +75,34 @@ export class DashboardProductsListComponent implements OnInit{
         });
         break;
     }
+  }
+
+  // Aplicar filtro por gama
+  filterByGama(gama: string) {
+    if (!this.filterGama.includes(gama)) {
+      this.filterGama.push(gama);
+      this.updateTableData();
+    }
+  }
+
+  // Eliminar filtro
+  removeFilter(gama: string) {
+    this.filterGama = this.filterGama.filter(f => f !== gama);
+    this.updateTableData();
+  }
+
+  // Actualiza los datos de la tabla basados en los filtros
+  updateTableData() {
+    if (this.filterGama.length === 0) {
+      this.tableData = this.mainTableData; // Sin filtros aplicados
+    } else {
+      this.tableData = this.mainTableData
+        .filter((item: any) => this.filterGama.includes(item.productGama));
+    }
+  }
+
+  filterLowStock(){
+    this.tableData = [...this.mainTableData].sort((a: any, b: any) => a.stock - b.stock);
   }
 
 }

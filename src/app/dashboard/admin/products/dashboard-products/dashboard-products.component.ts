@@ -57,7 +57,7 @@ export class DashboardProductsComponent {
           ? this.cacheService.httpGetById(this.tableName, params['id']).pipe(
               catchError(error => {
                 console.error('Error fetching product', error);
-                this.router.navigateByUrl("/dashboard/productos")
+                this.router.navigateByUrl("/dashboard/"+this.tableName)
                 return of({}); // Retorna un Observable con un objeto vacío en caso de error
               })
             )
@@ -99,15 +99,15 @@ export class DashboardProductsComponent {
 
   onSubmit(): void {
     if (this.productForm.valid) {
-      console.log(typeof(this.productForm.value["productGama"]));
+      //console.log(typeof(this.productForm.value["productGama"]));
       this.productForm.value["productGama"] as String
       if ((this.product as any).productId) {
-        this.cacheService.httpUpdate(this.tableName,(this.product as any).productId, this.productForm.value).subscribe(res => {
-          this.dialog.openSuccess(res);
+        this.cacheService.httpUpdate(this.tableName,(this.product as any).productId, this.productForm.value).subscribe((res: any) => {
+          this.router.navigateByUrl("/dashboard/"+this.tableName).then(() => {this.dialog.openSuccess(res.name);})
         })
       }else{
-        this.cacheService.httpCreate(this.tableName, this.productForm.value).subscribe(res => {
-          this.dialog.openSuccess(res);
+        this.cacheService.httpCreate(this.tableName, this.productForm.value).subscribe((res: any) => {
+          this.router.navigateByUrl("/dashboard/"+this.tableName).then(() => {this.dialog.openSuccess(res.name);})
         })
       }
       // Aquí puedes llamar a tu servicio para enviar los datos

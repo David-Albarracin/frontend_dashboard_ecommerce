@@ -40,7 +40,7 @@ export class CacheService {
       title: "Gestionar Pagos",
       icon: "payment",
       url: "pagos",
-      endPoint: "payments",
+      endPoint: "transactions",
       inMenu: true
     },
     {
@@ -54,7 +54,7 @@ export class CacheService {
       title: "Gestionar Oficinas",
       icon: "domain",
       url: "oficinas",
-      endPoint: "office",
+      endPoint: "offices",
       inMenu: true
     },
 
@@ -73,8 +73,6 @@ export class CacheService {
   ) {}
 
   httpGetList = (urlName: string) => {
-    console.log(this.findEndPoint(urlName));
-    
     return this.http.get<[]>(`${this.URL}/${this.findEndPoint(urlName)}`)
   }
 
