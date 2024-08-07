@@ -25,9 +25,13 @@ export class DashboardEmployeeListComponent implements OnInit{
   tableName= "empleados"
 
   tableHeader=[
-    "id",
-    "username",
-    "enable"
+    "employeeId",
+    "firstName",
+    "documentNumber",
+    "office.addressLine1",
+    "extension",
+    "charge.chargeName",
+    "boss.firstName"
   ]
 
   tableData=[]
@@ -53,11 +57,11 @@ export class DashboardEmployeeListComponent implements OnInit{
   handleActionClick(data: any): void {
     switch (data.type) {
       case "edit":
-        this.router.navigateByUrl(`/dashboard/${this.tableName}/editar/${data.row.id}`)
+        this.router.navigateByUrl(`/dashboard/${this.tableName}/editar/${data.row.employeeId}`)
         break;
     
       case "delete":
-        this.cacheService.httpDeleteById(this.tableName, data.row.id).subscribe(res => {
+        this.cacheService.httpDeleteById(this.tableName, data.row.employeeId).subscribe(res => {
           console.log(res);
           
         });

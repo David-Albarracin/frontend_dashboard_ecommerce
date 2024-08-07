@@ -15,19 +15,25 @@
             <input matInput formControlName="name" />
         </mat-form-field>
 
-        <mat-form-field>
-            <mat-label>Gama</mat-label>
-            <mat-select formControlName="productGama">
-                @for (gama of gamas; track $index) {
-                <mat-option  [value]="gama.productGamaId">{{ gama.name }}</mat-option>
-                }
-            </mat-select>
-            @if (productForm.get('productGamaId')?.hasError('required')) {
-            <mat-error>
-                Gama is required
-            </mat-error>
-            }
-        </mat-form-field>
+
+        <div>
+            <app-dashboard-select 
+                class="w-100"
+
+                [selectConfig]="{
+                    dataId: 'productGamaId',
+                    dataName: 'name',
+                    tableName: 'gamas'
+                }"
+
+                [dataSelected]="productGamaId"
+
+                (selectChanges)="handleSelectChangeGama($event)"
+            
+            >
+            
+            </app-dashboard-select>
+        </div>
 
         <mat-form-field>
             <mat-label>Description</mat-label>
@@ -48,6 +54,25 @@
             <mat-label>Price Buy</mat-label>
             <input matInput formControlName="priceBuy" type="number" />
         </mat-form-field>
+
+        <div>
+            <app-dashboard-select 
+                class="w-100"
+
+                [selectConfig]="{
+                    dataId: 'supplierId',
+                    dataName: 'name',
+                    tableName: 'proveedores'
+                }"
+
+                [dataSelected]="supplierId"
+
+                (selectChanges)="handleSelectChangeProvider($event)"
+            
+            >
+            
+            </app-dashboard-select>
+        </div>
 
         <button mat-flat-button color="primary" type="submit">Submit</button>
     </form>

@@ -10,16 +10,11 @@
                 Filtrar
             </button>
             <mat-menu #beforeMenu="matMenu" xPosition="after">
-            <button mat-menu-item  [matMenuTriggerFor]="gama">Gama de Productos</button>
-            <button mat-menu-item>Bajo Stock</button>
+            <button mat-menu-item>Consultar Pagos Por cliente</button>
+            <button mat-menu-item>Consultar Por Métodos de Pago</button>
             </mat-menu>
 
-            <mat-menu #gama="matMenu" xPosition="after">
-                @for (gama of gamas; track $index) {
-                    <button mat-menu-item>{{gama.name}}</button>
-                }
-              
-              </mat-menu>
+     
         </div>
 
         <div class="d-flex align-items-center">

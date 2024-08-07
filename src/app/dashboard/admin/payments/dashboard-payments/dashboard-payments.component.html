@@ -1,1 +1,35 @@
-<p>dashboard-payments works!</p>
+<div class="container-md">
+    <form class="d-flex flex-column gap-3 pt-3" [formGroup]="transactionsForm" (ngSubmit)="onSubmit()">
+        <!-- <mat-form-field>
+            <mat-label>Transaction ID</mat-label>
+            <input [disabled]="true" matInput formControlName="transactionId" />
+            @if (transactionsForm.get('transactionId')?.hasError('required')) {
+            <mat-error>
+                Transaction ID is required
+            </mat-error>
+            }
+        </mat-form-field> -->
+
+        <mat-form-field>
+            <mat-label>Amount</mat-label>
+            <input matInput formControlName="amount" type="number" />
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Transaction Date</mat-label>
+            <input matInput formControlName="transactionDate" type="datetime" />
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Payment Method</mat-label>
+            <input matInput formControlName="payMethod" />
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Order</mat-label>
+            <input matInput formControlName="order" />
+        </mat-form-field>
+
+        <button mat-flat-button color="primary" type="submit">Submit</button>
+    </form>
+</div>

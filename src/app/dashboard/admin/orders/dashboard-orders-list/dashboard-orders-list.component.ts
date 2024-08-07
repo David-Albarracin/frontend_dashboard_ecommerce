@@ -7,11 +7,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CacheService } from '../../../../services/cache.service';
+import { DashboardSelectComponent } from "../../dashboard-select/dashboard-select.component";
 
 @Component({
   selector: 'app-dashboard-orders-list',
   standalone: true,
-  imports: [DashboardTableComponent, MatButtonModule, MatMenuModule, RouterLink, MatIconModule, MatFormFieldModule, MatInputModule],
+  imports: [DashboardTableComponent, MatButtonModule, MatMenuModule, RouterLink, MatIconModule, MatFormFieldModule, MatInputModule, DashboardSelectComponent],
   templateUrl: './dashboard-orders-list.component.html',
   styleUrl: './dashboard-orders-list.component.scss'
 })
@@ -25,9 +26,12 @@ export class DashboardOrdersListComponent implements OnInit{
   tableName= "pedidos"
 
   tableHeader=[
-    "id",
-    "username",
-    "enable"
+    "orderId",
+    "customer.firstName",
+    "orderDate",
+    "commentary",
+    "status.name",
+    "orderType"
   ]
 
   tableData=[]
@@ -53,16 +57,28 @@ export class DashboardOrdersListComponent implements OnInit{
   handleActionClick(data: any): void {
     switch (data.type) {
       case "edit":
-        this.router.navigateByUrl(`/dashboard/${this.tableName}/editar/${data.row.id}`)
+        this.router.navigateByUrl(`/dashboard/${this.tableName}/editar/${data.row.orderId}`)
         break;
     
       case "delete":
-        this.cacheService.httpDeleteById(this.tableName, data.row.id).subscribe(res => {
+        this.cacheService.httpDeleteById(this.tableName, data.row.orderId).subscribe(res => {
           console.log(res);
           
         });
         break;
     }
+  }
+
+  filterByCity(data: any){
+    this.cacheService.httpGetList(this.tableName, 'byCity/'+ data).subscribe(res => {
+      this.tableData = res;
+    })
+  }
+
+  filterByOrderStatusPendent(){
+    this.cacheService.httpGetList(this.tableName, 'byOrderPendent').subscribe(res => {
+      this.tableData = res;
+    })
   }
 
 }

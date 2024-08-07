@@ -1,6 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {MatCardModule} from '@angular/material/card'
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from "@angular/material/form-field";
 import {MatCheckboxModule} from '@angular/material/checkbox'
@@ -25,7 +25,7 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './sing-in.component.html',
   styleUrl: './sing-in.component.scss'
 })
-export class SingInComponent {
+export class SingInComponent implements OnInit {
 
   hide = true;
   load = false
@@ -34,7 +34,14 @@ export class SingInComponent {
   login_password = new FormControl('', [Validators.required, Validators.minLength(3)]);
 
 
-  authService = inject(AuthService)
+  authService = inject(AuthService);
+  router = inject(Router);
+
+  ngOnInit(): void {
+    if (this.authService.isAuthenticated()) {
+      this.router.navigateByUrl('dashboard')
+    }
+  }
 
   singIn(){
     this.authService.singIn(this.login_email.value!, this.login_password.value!)

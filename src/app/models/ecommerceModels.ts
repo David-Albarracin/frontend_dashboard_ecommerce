@@ -8,6 +8,12 @@ export interface Role {
   name: 'ADMIN' | 'USER';
 }
 
+export interface Audit{
+  createAt: Date,
+  updatedAt: Date,
+  isActive: boolean
+}
+
 /*
 --------------->  
 account
@@ -52,7 +58,7 @@ country
 --------------->
 */
 export interface Country {
-country_id: number;
+countryId: number;
 name: string;
 }
 
@@ -62,9 +68,9 @@ region
 --------------->
 */
 export interface Region {
-region_id: number;
+regionId: number;
 name: string;
-country_id: number;
+country: Country;
 }
 /*
 --------------->  
@@ -72,9 +78,9 @@ city
 --------------->
 */
 export interface City {
-  city_id: number;
+  cityId: number;
   name: string;
-  region_id: number;
+  region: Region;
 }
 
 /*
@@ -83,17 +89,15 @@ customer
 --------------->
 */
 export interface Customer {
-  customer_id: number;
-  first_name: string;
-  first_surname: string;
-  last_name: string;
-  last_surname: string;
-  document_number: string;
-document_type: 'CEDULA_CIUDADANIA' | 'CEDULA_EXTRANJERIA' | 'NIT' | 'PASAPORTE';
-  employee_id: number;
-  created_at: Date;
-  updated_at: Date;
-is_active : boolean;	
+  customerId: number;
+  firstName: string;
+  firstSurname: string;
+  lastName: string;
+  lastSurname: string;
+  documentNumber: string;
+  documentType: 'CEDULA_CIUDADANIA' | 'CEDULA_EXTRANJERIA' | 'NIT' | 'PASAPORTE';
+  employee: Employee;
+  audit: Audit;
 }
 
 /*
@@ -139,14 +143,21 @@ orders
 --------------->
 */
 export interface Orders {
-  order_id: number;
-  order_date?: Date;
-  expected_date?: Date;
-  deliver_date?: Date;
+  orderId: number;
+  orderDate?: Date;
+  expectedDate?: Date;
+  deliverDate?: Date;
   commentary?: string;
-  status_id: number;
-  order_type?: 'COMPRA' | 'VENTA';
-  customer_id: number;
+  status: Status;
+  orderType?: 'COMPRA' | 'VENTA';
+  customer: Customer;
+}
+
+export interface Status{
+  orderStatusId: number,
+  name: string,
+  description: string
+  isActive: boolean,
 }
 
 /*
@@ -155,7 +166,7 @@ supplier
 --------------->
 */
 export interface Supplier {
-  supplier_id: number;
+  supplierId: number;
   name: string;
   contact_name?: string;
   email?: string;
@@ -195,10 +206,10 @@ supplier_phone
 --------------->
 */
 export interface Office {
-  office_id: number;
-  address_line1: string;
-  address_line2: string;
-  city_id: number;
+  officeId: number;
+  addressLine1: string;
+  addressLine2: string;
+  city: City;
 }
 /*
 --------------->  
@@ -218,8 +229,8 @@ supplier_phone
 --------------->
 */
 export interface Charge {
-  charge_id: number;
-  charge_name: string;
+  chargeId: number;
+  chargeName: string;
 }
 
 /*
@@ -228,19 +239,19 @@ Employee
 --------------->
 */
 export interface Employee {
-  employee_id: number;
-  first_name: string;
-  second_name: string;
-  first_surname: string;
-  second_surname: string;
-  document_number: string;
-  document_type: 'CEDULA_CIUDADANIA' | 'CEDULA_EXTRANJERIA' | 'NIT' | 'PASAPORTE';
-  office_id: number;
+  employeeId: number;
+  firstName: string;
+  secondName: string;
+  firstSurname: string;
+  secondSurname: string;
+  documentNumber: string;
+  phoneNumber: string;
+  documentType: 'CEDULA_CIUDADANIA' | 'CEDULA_EXTRANJERIA' | 'NIT' | 'PASAPORTE';
+  office: Office;
   extension: number;
-  charge_id: number;
-  created_at: Date;
-  updated_at: Date;
-  boss_id: number;
+  charge: Charge;
+  boss: Employee;
+  audit: Audit
 }
 
 /*
@@ -268,6 +279,7 @@ export interface Product {
   stock?: number;
   priceSale?: number;
   priceBuy?: number;
+  supplier: Supplier | number
 }
 
 /*
@@ -290,7 +302,7 @@ pay_methods
 --------------->
 */
 export interface PayMethods {
-  pay_method_id: number;
+  payMethodId: number;
   name: string;
   description?: string;
 }
@@ -301,9 +313,9 @@ transaction
 --------------->
 */
 export interface Transactions {
-  transaction_id: number;
+  transactionId: number;
   amount: number;
-  transaction_date: Date;
-  pay_method_id: number;
-  order_id: number;
+  transactionDate: Date;
+  payMethod: PayMethods;
+  order: Orders;
 }

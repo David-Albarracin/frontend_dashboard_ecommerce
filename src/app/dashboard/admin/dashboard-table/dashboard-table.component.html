@@ -7,15 +7,9 @@
         <th class="text-capitalize" mat-header-cell *matHeaderCellDef mat-sort-header> {{header}}  </th>
         <td mat-cell *matCellDef="let row"> 
           
-          @if (header == "isActive" || header == "enable") {
-            <span class="rounded-5 p-2 text-capitalize" [class]="row[header]? 'text-bg-success': 'text-bg-warning'">
-              {{row[header]? 'activo': 'desactivado'}} 
-            </span>
-          }@else {
-            <span>
-              {{row[header]}} 
-            </span>
-          }
+          <span [classList]="isActiveCheck(row, header)">
+            {{ getNestedValue(row, header) }}
+          </span>
         
         </td>
       </ng-container>

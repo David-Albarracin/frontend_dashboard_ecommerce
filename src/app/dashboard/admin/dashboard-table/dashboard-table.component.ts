@@ -55,6 +55,34 @@ export class DashboardTableComponent implements AfterViewInit, OnChanges {
     this.actionClicked.emit({row:row, type:type});
   }
 
+  getNestedValue(obj: any, header: string): any {
+    try {
+      const keys = header.split('.');
+      return keys.reduce((acc, key) => acc?.[key], obj);
+    } catch (error) {
+      return 'null'
+    }
+   
+  }
+  
+  isActiveCheck(obj: any, header: string){
+    const keys = header.split('.');
+    const key = keys.reduce((acc, key) => acc?.[key], obj);
+    switch (key?.toString().toLowerCase()) {
+      case 'entregado':
+        return 'rounded-2 text-bg-success p-1'
+      case 'true':
+        return 'rounded-2 text-bg-success p-1'
+
+      case 'false':
+        return 'rounded-2 text-bg-warning p-1'
+
+      case 'pendiente':
+        return 'rounded-2 text-bg-warning p-1'
+
+      default:
+        return ''    }
+  }
 
 
 }

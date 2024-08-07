@@ -1,1 +1,59 @@
-<p>dashboard-customers works!</p>
+<div class="container-md">
+    <form class="d-flex flex-column gap-3 pt-3" [formGroup]="customerForm" (ngSubmit)="onSubmit()">
+        <mat-form-field>
+            <mat-label>First Name</mat-label>
+            <input matInput formControlName="firstName" />
+            @if (customerForm.get('firstName')?.hasError('required')) {
+            <mat-error>
+                First Name is required
+            </mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>First Surname</mat-label>
+            <input matInput formControlName="firstSurname" />
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Last Name</mat-label>
+            <input matInput formControlName="lastName" />
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Last Surname</mat-label>
+            <input matInput formControlName="lastSurname" />
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Document Number</mat-label>
+            <input matInput formControlName="documentNumber" />
+            @if (customerForm.get('documentNumber')?.hasError('required')) {
+            <mat-error>
+                Document Number is required
+            </mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Document Type</mat-label>
+            <input matInput formControlName="documentType" />
+        </mat-form-field>
+
+        <div>
+            <app-dashboard-select 
+                class="w-100"
+                [selectConfig]="{
+                    dataId: 'employeeId',
+                    dataName: 'firstName',
+                    tableName: 'empleados'
+                }"
+                [dataSelected]="employeeId"
+                (selectChanges)="handleSelectChangeEmployee($event)"
+            >
+            </app-dashboard-select>
+        </div>
+
+        <button mat-flat-button color="primary" type="submit">Submit</button>
+    </form>
+</div>

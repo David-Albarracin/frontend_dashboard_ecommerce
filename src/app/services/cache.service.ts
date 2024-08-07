@@ -64,6 +64,29 @@ export class CacheService {
       url: "gamas",
       endPoint: "product_gamas",
       inMenu: false
+    },
+    {
+      title: "Gestionar Proveedores",
+      icon: "team",
+      url: "proveedores",
+      endPoint: "suppliers",
+      inMenu: false
+    },
+    {
+      title: "Gestionar Ciudades",
+      icon: "city",
+      url: "ciudades",
+      endPoint: "cities",
+      inMenu: false
+      
+    },
+    {
+      title: "Gestionar Estados",
+      icon: "status",
+      url: "estados",
+      endPoint: "order_status",
+      inMenu: false
+      
     }
   ];
 
@@ -72,8 +95,8 @@ export class CacheService {
     private http: HttpClient, 
   ) {}
 
-  httpGetList = (urlName: string) => {
-    return this.http.get<[]>(`${this.URL}/${this.findEndPoint(urlName)}`)
+  httpGetList = (urlName: string, moreDetails?:string) => {
+    return this.http.get<[]>(`${this.URL}/${this.findEndPoint(urlName)}${moreDetails? '/'+moreDetails: ''}`)
   }
 
   httpGetById = (urlName: string, id:string) => {
@@ -98,6 +121,5 @@ export class CacheService {
     return menuItem ? menuItem.endPoint : undefined;
   }
   
-
 
 }

@@ -7,11 +7,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CacheService } from '../../../../services/cache.service';
+import { DashboardSelectComponent } from "../../dashboard-select/dashboard-select.component";
 
 @Component({
   selector: 'app-dashboard-customers-list',
   standalone: true,
-  imports: [DashboardTableComponent, MatButtonModule, MatMenuModule, RouterLink, MatIconModule, MatFormFieldModule, MatInputModule],
+  imports: [DashboardTableComponent, MatButtonModule, MatMenuModule, RouterLink, MatIconModule, MatFormFieldModule, MatInputModule, DashboardSelectComponent],
   templateUrl: './dashboard-customers-list.component.html',
   styleUrl: './dashboard-customers-list.component.scss'
 })
@@ -25,9 +26,11 @@ export class DashboardCustomersListComponent implements OnInit{
   tableName= "clientes"
 
   tableHeader=[
-    "id",
-    "username",
-    "enable"
+    "customerId",
+    "documentNumber",
+    "firstName",
+    "audit.isActive",
+    "employee.firstName"
   ]
 
   tableData=[]
@@ -41,28 +44,35 @@ export class DashboardCustomersListComponent implements OnInit{
 
   ngOnInit(): void {
     this.cacheService.httpGetList(this.tableName).subscribe(res => {
-      console.log(res);
-      
       this.tableData = res;
     });
-    // this.cacheService.httpGetList("gamas").subscribe(res => {
-    //   this.gamas = res;
-    // });
   }
 
   handleActionClick(data: any): void {
     switch (data.type) {
       case "edit":
-        this.router.navigateByUrl(`/dashboard/${this.tableName}/editar/${data.row.id}`)
+        this.router.navigateByUrl(`/dashboard/${this.tableName}/editar/${data.row.customerId}`)
         break;
     
       case "delete":
-        this.cacheService.httpDeleteById(this.tableName, data.row.id).subscribe(res => {
+        this.cacheService.httpDeleteById(this.tableName, data.row.customerId).subscribe(res => {
           console.log(res);
           
         });
         break;
     }
+  }
+
+  filterByCity(data: any){
+    this.cacheService.httpGetList(this.tableName, 'byCity/'+ data).subscribe(res => {
+      this.tableData = res;
+    })
+  }
+
+  filterByOrderStatusPendent(){
+    this.cacheService.httpGetList(this.tableName, 'byOrderPendent').subscribe(res => {
+      this.tableData = res;
+    })
   }
 
 }

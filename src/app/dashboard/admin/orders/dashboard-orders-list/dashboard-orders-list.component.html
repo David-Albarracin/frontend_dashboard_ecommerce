@@ -10,16 +10,20 @@
                 Filtrar
             </button>
             <mat-menu #beforeMenu="matMenu" xPosition="after">
-            <button mat-menu-item  [matMenuTriggerFor]="gama">Gama de Productos</button>
-            <button mat-menu-item>Bajo Stock</button>
+                <button mat-menu-item [matMenuTriggerFor]="city">Buscar Pedidos Por ciudad</button>
+                <button (click)="filterByOrderStatusPendent()" mat-menu-item>Buscar por Pedidos por fecha</button>
             </mat-menu>
 
-            <mat-menu #gama="matMenu" xPosition="after">
-                @for (gama of gamas; track $index) {
-                    <button mat-menu-item>{{gama.name}}</button>
-                }
-              
-              </mat-menu>
+            <mat-menu #city="matMenu" xPosition="after">
+                <app-dashboard-select [selectConfig]="
+                    {
+                        dataId: 'cityId',
+                        dataName: 'name',
+                        tableName: 'ciudades'
+
+                }" (selectChanges)="filterByCity($event)"></app-dashboard-select>
+
+            </mat-menu>
         </div>
 
         <div class="d-flex align-items-center">

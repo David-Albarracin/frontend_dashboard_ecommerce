@@ -26,8 +26,13 @@ export class DashboardPaymentsListComponent implements OnInit{
   tableName= "pagos"
 
   tableHeader=[
-    "id",
-    "username"
+    "transactionId",
+    "amount",
+    "transactionDate",
+    "payMethod.name",
+    "order.orderType",
+    "order.status.name",
+    "order.customer.firstName"
   ]
 
   tableData=[]
@@ -51,11 +56,11 @@ export class DashboardPaymentsListComponent implements OnInit{
   handleActionClick(data: any): void {
     switch (data.type) {
       case "edit":
-        this.router.navigateByUrl(`/dashboard/${this.tableName}/editar/${data.row.id}`)
+        this.router.navigateByUrl(`/dashboard/${this.tableName}/editar/${data.row.transactionId}`)
         break;
     
       case "delete":
-        this.cacheService.httpDeleteById(this.tableName, data.row.id).subscribe(res => {
+        this.cacheService.httpDeleteById(this.tableName, data.row.transactionId).subscribe(res => {
           console.log(res);
           
         });

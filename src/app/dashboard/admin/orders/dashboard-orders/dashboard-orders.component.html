@@ -1,1 +1,73 @@
-<p>dashboard-orders works!</p>
+<div class="container-md">
+    <form class="d-flex flex-column gap-3 pt-3" [formGroup]="ordersForm" (ngSubmit)="onSubmit()">
+        <mat-form-field>
+            <mat-label>Order Date</mat-label>
+            <input matInput formControlName="orderDate" type="date" />
+            @if (ordersForm.get('orderDate')?.hasError('required')) {
+            <mat-error>
+                Order Date is required
+            </mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Expected Date</mat-label>
+            <input matInput formControlName="expectedDate" type="date" />
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Deliver Date</mat-label>
+            <input matInput formControlName="deliverDate" type="date" />
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Commentary</mat-label>
+            <textarea matInput formControlName="commentary"></textarea>
+        </mat-form-field>
+
+        <div>
+            <app-dashboard-select 
+                class="w-100"
+                [selectConfig]="{
+                    dataId: 'orderStatusId',
+                    dataName: 'name',
+                    tableName: 'estados'
+                }"
+                [dataSelected]="statusId"
+                (selectChanges)="handleSelectChange($event, 'status')"
+            >
+            </app-dashboard-select>
+        </div>
+
+        <div>
+            <app-dashboard-select 
+                class="w-100"
+                [selectConfig]="{
+                    dataId: 'orderTypeId',
+                    dataName: 'name',
+                    tableName: 'order-type'
+                }"
+                [dataSelected]="orderType"
+                (selectChanges)="handleSelectChange($event, 'orderType')"
+            >
+            </app-dashboard-select>
+        </div>
+
+
+        <div>
+            <app-dashboard-select 
+                class="w-100"
+                [selectConfig]="{
+                    dataId: 'customerId',
+                    dataName: 'firstName',
+                    tableName: 'clientes'
+                }"
+                [dataSelected]="customerId"
+                (selectChanges)="handleSelectChange($event, 'customer')"
+            >
+            </app-dashboard-select>
+        </div>
+
+        <button mat-flat-button color="primary" type="submit">Submit</button>
+    </form>
+</div>

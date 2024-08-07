@@ -1,0 +1,13 @@
+<mat-form-field class="w-100">
+    <mat-label>{{selectConfig.tableName}}</mat-label>
+    <mat-select [formControl]="onSelect" (selectionChange)="selectChange()">
+        @for (data of selectData; track $index) {
+        <mat-option class="text-capitalize" [value]="data[selectConfig.dataId]">{{ data[selectConfig.dataName] }}</mat-option>
+        }
+    </mat-select>
+    @if (!onSelect) {
+    <mat-error>
+        {{selectConfig.tableName}} is required
+    </mat-error>
+    }
+</mat-form-field>
