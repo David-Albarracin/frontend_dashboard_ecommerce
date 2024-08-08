@@ -2,8 +2,8 @@
 
 @if (tableData) {
     <div class="pt-3">
-        <app-dashboard-table [tableName]="tableName" [actions]="false" [tableData]="tableData"
-            [tableHeader]="tableHeader" [filter]="filter"></app-dashboard-table>
+        <app-dashboard-table [tableName]="tableName" [actions]="actions" [tableData]="tableData"
+          (actionClicked)="handleActionClick($event)"   [tableHeader]="tableHeader" [filter]="filter"></app-dashboard-table>
     </div>
 }@else {
     <div class="pt-3">

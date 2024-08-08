@@ -12,6 +12,7 @@ import { DialogPortalService } from '../../../../services/dialog-portal.service'
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { provideNativeDateAdapter } from '@angular/material/core';
+import { Orders } from '../../../../models/ecommerceModels';
 
 @Component({
   selector: 'app-dashboard-orders-list',
@@ -27,6 +28,8 @@ export class DashboardOrdersListComponent implements OnInit{
     start: new FormControl<Date | null>(null),
     end: new FormControl<Date | null>(null),
   });
+
+  mainData!:any;
 
 
   filter = ''
@@ -57,13 +60,17 @@ export class DashboardOrdersListComponent implements OnInit{
 
   ngOnInit(): void {
     this.cacheService.httpGetList(this.tableName).subscribe(res => {
-      console.log(res);
-      
+      this.mainData = res  
       this.tableData = res;
     });
-    // this.cacheService.httpGetList("gamas").subscribe(res => {
-    //   this.gamas = res;
-    // });
+    // Subscribe to changes in the start and end date controls
+    this.range.get('start')?.valueChanges.subscribe(start => {
+      this.filterDataByRange();
+    });
+
+    this.range.get('end')?.valueChanges.subscribe(end => {
+      this.filterDataByRange();
+    });
   }
 
   handleActionClick(data: any): void {
@@ -81,14 +88,23 @@ export class DashboardOrdersListComponent implements OnInit{
     }
   }
 
-  filterByCity(){
-    this.dialogPortal.openFilterDialog('city', this.tableName)
+  filterByStatus(){
+    this.dialogPortal.openFilterDialog('status', this.tableName)
   }
 
-  filterByOrderStatusPendent(){
-    this.cacheService.httpGetList(this.tableName, 'byOrderPendent').subscribe(res => {
-      this.tableData = res;
-    })
+  filterDataByRange() {
+    const startDate = this.range.get('start')?.value;
+    const endDate = this.range.get('end')?.value;
+
+
+    if (startDate && endDate) {
+      this.tableData = this.mainData.filter((item:any) => {
+        const orderDate = new Date(item.orderDate);
+        endDate?.setHours(23, 59, 59, 999);
+        orderDate?.setHours(24);
+        return ((orderDate >= startDate) && (orderDate <= endDate));
+      });
+    }
   }
 
 }

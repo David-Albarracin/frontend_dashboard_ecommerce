@@ -68,6 +68,8 @@ export class DashboardOrdersComponent implements OnDestroy {
   orderType!:any;
 
   createForm(data?: Orders): void {
+    console.log(data);
+    
     // Extracting ordersGamaId from data if it exists
     this.customerId = (data?.customer as Customer)?.customerId || '';
     this.statusId = (data?.status as Status)?.orderStatusId || '';
@@ -84,6 +86,8 @@ export class DashboardOrdersComponent implements OnDestroy {
       customer: [this.customerId]
     });
   }
+
+
 
   onSubmit(): void {
     if (this.ordersForm.valid) {

@@ -12,7 +12,7 @@
                     Filtrar
                 </button>
                 <mat-menu #beforeMenu="matMenu" xPosition="after">
-                    <button mat-menu-item (click)="filterByCity()">Buscar Pedidos Por ciudad</button>
+                    <button mat-menu-item (click)="filterByStatus()">Buscar Pedidos Por Estado</button>
                 </mat-menu>
             </div>
 
@@ -34,7 +34,7 @@
             <div class="d-flex">
                 <mat-form-field>
                     <mat-label>Filtrar por Rango de Fecha</mat-label>
-                    <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                    <mat-date-range-input  [formGroup]="range" [rangePicker]="picker">
                       <input matStartDate formControlName="start" placeholder="Start date">
                       <input matEndDate formControlName="end" placeholder="End date">
                     </mat-date-range-input>
