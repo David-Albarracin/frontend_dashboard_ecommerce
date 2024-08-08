@@ -8,15 +8,26 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CacheService } from '../../../../services/cache.service';
 import { DashboardSelectComponent } from "../../dashboard-select/dashboard-select.component";
+import { DialogPortalService } from '../../../../services/dialog-portal.service';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { provideNativeDateAdapter } from '@angular/material/core';
 
 @Component({
   selector: 'app-dashboard-orders-list',
   standalone: true,
-  imports: [DashboardTableComponent, MatButtonModule, MatMenuModule, RouterLink, MatIconModule, MatFormFieldModule, MatInputModule, DashboardSelectComponent],
+  providers: [provideNativeDateAdapter()],
+  imports: [DashboardTableComponent, MatButtonModule,FormsModule,ReactiveFormsModule, MatMenuModule, RouterLink, MatIconModule, MatFormFieldModule, MatInputModule, DashboardSelectComponent, MatDatepickerModule],
   templateUrl: './dashboard-orders-list.component.html',
   styleUrl: './dashboard-orders-list.component.scss'
 })
 export class DashboardOrdersListComponent implements OnInit{
+
+  range = new FormGroup({
+    start: new FormControl<Date | null>(null),
+    end: new FormControl<Date | null>(null),
+  });
+
 
   filter = ''
 
@@ -35,7 +46,8 @@ export class DashboardOrdersListComponent implements OnInit{
   ]
 
   tableData=[]
-  gamas:any[]=[]
+
+  dialogPortal = inject(DialogPortalService)
 
   applyFilter(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -69,10 +81,8 @@ export class DashboardOrdersListComponent implements OnInit{
     }
   }
 
-  filterByCity(data: any){
-    this.cacheService.httpGetList(this.tableName, 'byCity/'+ data).subscribe(res => {
-      this.tableData = res;
-    })
+  filterByCity(){
+    this.dialogPortal.openFilterDialog('city', this.tableName)
   }
 
   filterByOrderStatusPendent(){

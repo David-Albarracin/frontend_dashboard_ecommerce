@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CacheService } from '../../../../services/cache.service';
 import { DashboardSelectComponent } from "../../dashboard-select/dashboard-select.component";
+import { DialogPortalService } from '../../../../services/dialog-portal.service';
 
 @Component({
   selector: 'app-dashboard-customers-list',
@@ -21,6 +22,8 @@ export class DashboardCustomersListComponent implements OnInit{
   filter = ''
 
   cacheService = inject(CacheService);
+  dialogPortal = inject(DialogPortalService);
+
   router = inject(Router);
 
   tableName= "clientes"
@@ -34,7 +37,6 @@ export class DashboardCustomersListComponent implements OnInit{
   ]
 
   tableData=[]
-  gamas:any[]=[]
 
   applyFilter(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -63,16 +65,12 @@ export class DashboardCustomersListComponent implements OnInit{
     }
   }
 
-  filterByCity(data: any){
-    this.cacheService.httpGetList(this.tableName, 'byCity/'+ data).subscribe(res => {
-      this.tableData = res;
-    })
+  filterByCity(){
+    this.dialogPortal.openFilterDialog('city', this.tableName)
   }
 
   filterByOrderStatusPendent(){
-    this.cacheService.httpGetList(this.tableName, 'byOrderPendent').subscribe(res => {
-      this.tableData = res;
-    })
+    this.dialogPortal.openFilterDialog('status', this.tableName)
   }
 
 }

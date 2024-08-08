@@ -23,6 +23,8 @@ export class DashboardTableComponent implements AfterViewInit, OnChanges {
   @Input() tableHeader!: string[];
   @Input() tableData!: any;
 
+  @Input() actions:boolean = true;
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 

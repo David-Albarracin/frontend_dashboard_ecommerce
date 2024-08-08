@@ -68,6 +68,24 @@
             </app-dashboard-select>
         </div>
 
+        <div>
+            <div class="d-flex">
+                <button type="button" mat-flat-button (click)="addProduct()">
+                    Agregar un Producto
+                </button>
+            </div>
+            @if (orders.orderDetail != null) {
+                @for (orderDetail of orders.orderDetail; track $index) {
+                    <app-dashboard-orders-details [orderDetail]="orderDetail"></app-dashboard-orders-details>
+                }
+            }@else {
+                <p>No tienes Productos todavía</p>
+            }
+           
+        </div>
+
         <button mat-flat-button color="primary" type="submit">Submit</button>
     </form>
 </div>
+
+

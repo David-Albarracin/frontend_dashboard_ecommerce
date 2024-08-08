@@ -16,6 +16,7 @@ import { DashboardEmployeeComponent } from './dashboard/admin/employee/dashboard
 import { DashboardOfficeComponent } from './dashboard/admin/office/dashboard-office/dashboard-office.component';
 import { DashboardOfficeListComponent } from './dashboard/admin/office/dashboard-office-list/dashboard-office-list.component';
 import { adminAuthGuard } from './guards/admin-auth.guard';
+import { DashboardListComponent } from './dashboard/admin/dashboard-list/dashboard-list.component';
 
 export const routes: Routes = [
     {
@@ -36,6 +37,10 @@ export const routes: Routes = [
             {
                 path: 'inicio',
                 component: DashboardHomeComponent
+            },
+            {
+                path: 'filtro',
+                component: DashboardListComponent
             },
             {
                 path: 'productos', 

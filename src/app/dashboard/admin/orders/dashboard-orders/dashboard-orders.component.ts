@@ -16,11 +16,12 @@ import { switchMap } from 'rxjs/internal/operators/switchMap';
 import { DialogPortalService } from '../../../../services/dialog-portal.service';
 import { DashboardSelectComponent } from '../../dashboard-select/dashboard-select.component';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { DashboardOrdersDetailsComponent } from "../../orders-details/dashboard-orders-details/dashboard-orders-details.component";
 
 @Component({
   selector: 'app-dashboard-orders',
   standalone: true,
-  imports: [MatFormFieldModule, ReactiveFormsModule, MatSelectModule, MatInputModule, MatButtonModule, DashboardSelectComponent],
+  imports: [MatFormFieldModule, ReactiveFormsModule, MatSelectModule, MatInputModule, MatButtonModule, DashboardSelectComponent, DashboardOrdersDetailsComponent],
   templateUrl: './dashboard-orders.component.html',
   styleUrl: './dashboard-orders.component.scss'
 })
@@ -32,7 +33,7 @@ export class DashboardOrdersComponent implements OnDestroy {
 
   ordersForm!: FormGroup;
   gamas: any[] = []; // Array para almacenar las gamas de orders
-  orders!: {}
+  orders!:Orders
 
   cacheService = inject(CacheService);
   fb = inject(FormBuilder);
@@ -54,7 +55,7 @@ export class DashboardOrdersComponent implements OnDestroy {
         )
         : of({});
       this.subs$.push(orders$.subscribe(res => {
-        this.orders = res;
+        this.orders = res as Orders;
         this.createForm(this.orders as Orders)
 
       }))
@@ -88,6 +89,8 @@ export class DashboardOrdersComponent implements OnDestroy {
     if (this.ordersForm.valid) {
       //console.log(typeof(this.ordersForm.value["ordersGama"]));
       //this.ordersForm.value["ordersGama"] as String
+      //console.log( this.ordersForm.value );
+      
       if ((this.orders as Orders).orderId) {
         this.cacheService.httpUpdate(this.tableName, (this.orders as any).orderId, this.ordersForm.value).subscribe((res: any) => {
           this.router.navigateByUrl("/dashboard/" + this.tableName).then(() => { this.dialog.openSuccess(res.name); })
@@ -105,7 +108,9 @@ export class DashboardOrdersComponent implements OnDestroy {
     this.ordersForm.get(rowName)!.setValue(data);
   }
 
+  addProduct(){
 
+  }
 
   ngOnDestroy() {
     this.subs$.forEach(e => e.unsubscribe())

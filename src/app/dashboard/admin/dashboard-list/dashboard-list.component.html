@@ -1,1 +1,12 @@
-<p>dashboard-list works!</p>
+
+
+@if (tableData) {
+    <div class="pt-3">
+        <app-dashboard-table [tableName]="tableName" [actions]="false" [tableData]="tableData"
+            [tableHeader]="tableHeader" [filter]="filter"></app-dashboard-table>
+    </div>
+}@else {
+    <div class="pt-3">
+        <p>No se Encontraron Resultados que coincidan </p>
+    </div>
+}

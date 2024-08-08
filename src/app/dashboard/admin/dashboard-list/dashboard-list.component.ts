@@ -6,6 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { DashboardTableComponent } from '../dashboard-table/dashboard-table.component';
+import { CacheService } from '../../../services/cache.service';
 
 @Component({
   selector: 'app-dashboard-list',
@@ -25,18 +26,24 @@ import { DashboardTableComponent } from '../dashboard-table/dashboard-table.comp
 export class DashboardListComponent implements OnInit {
   filter = ''
 
-  activatedRoute = inject(ActivatedRoute)
+  tableName= ''
+  tableHeader=[]
+  tableData=''
+
+  activatedRoute = inject(ActivatedRoute);
+  cacheService = inject(CacheService);
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe(res => {
-      console.log(res["type"]);
-       
+    this.activatedRoute.queryParamMap.subscribe(res => {
+      const tableName = res.get("tableName")!;
+      const filterData = res.get("tableName")!;
+      const filterBy = res.get('filterBy')!;
+
+      this.cacheService.httpGetList(tableName, `by${filterBy}/${filterData}`).subscribe(res => {
+        console.log(res);
+      })
     })
   }
 
-  applyFilter(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const filterValue = input.value.trim().toLowerCase();
-    this.filter = filterValue;
-  }
+  
 }

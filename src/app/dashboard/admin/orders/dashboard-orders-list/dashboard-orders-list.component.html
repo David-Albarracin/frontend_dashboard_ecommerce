@@ -4,39 +4,52 @@
     </div>
 
     <div class="d-flex justify-content-between w-100 pt-3">
-        <div class="mr-1">
-            <button mat-flat-button [matMenuTriggerFor]="beforeMenu">
-                <mat-icon fontIcon="filter_list"></mat-icon>
-                Filtrar
+        <div class="d-flex gap-2">
+          
+            <div class="mr-1">
+                <button mat-flat-button [matMenuTriggerFor]="beforeMenu">
+                    <mat-icon fontIcon="filter_list"></mat-icon>
+                    Filtrar
+                </button>
+                <mat-menu #beforeMenu="matMenu" xPosition="after">
+                    <button mat-menu-item (click)="filterByCity()">Buscar Pedidos Por ciudad</button>
+                </mat-menu>
+            </div>
+
+                        
+            <button class="text-capitalize" routerLink="/dashboard/{{tableName}}/agregar" mat-flat-button>
+                Agregar {{tableName}}
             </button>
-            <mat-menu #beforeMenu="matMenu" xPosition="after">
-                <button mat-menu-item [matMenuTriggerFor]="city">Buscar Pedidos Por ciudad</button>
-                <button (click)="filterByOrderStatusPendent()" mat-menu-item>Buscar por Pedidos por fecha</button>
-            </mat-menu>
-
-            <mat-menu #city="matMenu" xPosition="after">
-                <app-dashboard-select [selectConfig]="
-                    {
-                        dataId: 'cityId',
-                        dataName: 'name',
-                        tableName: 'ciudades'
-
-                }" (selectChanges)="filterByCity($event)"></app-dashboard-select>
-
-            </mat-menu>
+           
+      
         </div>
+      
 
-        <div class="d-flex align-items-center">
+        <div class="d-flex gap-2 align-items-center">
             <mat-form-field class="remove-wrapper" appearance="outline">
                 <input matInput (keyup)="applyFilter($event)" placeholder="Buscar...." #input>
                 <mat-icon fontIcon="search" matSuffix></mat-icon>
             </mat-form-field>
 
-            
-            <button class="ms-3 text-capitalize" routerLink="/dashboard/{{tableName}}/agregar" mat-flat-button>
-                Agregar {{tableName}}
-            </button>
-           
+            <div class="d-flex">
+                <mat-form-field>
+                    <mat-label>Filtrar por Rango de Fecha</mat-label>
+                    <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                      <input matStartDate formControlName="start" placeholder="Start date">
+                      <input matEndDate formControlName="end" placeholder="End date">
+                    </mat-date-range-input>
+                    <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker></mat-date-range-picker>
+                  
+                    @if (range.controls.start.hasError('matStartDateInvalid')) {
+                      <mat-error>Invalid start date</mat-error>
+                    }
+                    @if (range.controls.end.hasError('matEndDateInvalid')) {
+                      <mat-error>Invalid end date</mat-error>
+                    }
+                  </mat-form-field>
+            </div>
           
         </div>
 

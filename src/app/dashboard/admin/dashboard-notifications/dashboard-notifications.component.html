@@ -1,1 +1,18 @@
-<p>dashboard-notifications works!</p>
+<h1 class="text-capitalize" mat-dialog-title>{{title}}</h1>
+
+<div mat-dialog-content>
+    <app-dashboard-select 
+    class="w-100"
+
+    [selectConfig]="selectConfigData"
+
+    (selectChanges)="handleSelectChange($event)"
+
+>
+
+</app-dashboard-select></div>
+
+<div mat-dialog-actions>
+  <button mat-flat-button (click)="onFilter()">Filtrar</button>
+  <button mat-flat-button (click)="onClose()">Cerrar</button>
+</div>

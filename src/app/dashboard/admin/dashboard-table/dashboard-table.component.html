@@ -1,34 +1,36 @@
 <div class="container-fluid">
   <table class="h-100 shadow-none" mat-table [dataSource]="dataSource" matSort>
 
-  
+
     @for (header of tableHeader; track $index) {
-      <ng-container [matColumnDef]="header">
-        <th class="text-capitalize" mat-header-cell *matHeaderCellDef mat-sort-header> {{header}}  </th>
-        <td mat-cell *matCellDef="let row"> 
-          
-          <span [classList]="isActiveCheck(row, header)">
-            {{ getNestedValue(row, header) }}
-          </span>
-        
-        </td>
-      </ng-container>
+    <ng-container [matColumnDef]="header">
+      <th class="text-capitalize" mat-header-cell *matHeaderCellDef mat-sort-header> {{header}} </th>
+      <td mat-cell *matCellDef="let row">
+
+        <span [classList]="isActiveCheck(row, header)">
+          {{ getNestedValue(row, header) }}
+        </span>
+
+      </td>
+    </ng-container>
     }
 
-      <!-- Columna para editar y eliminar -->
-      <ng-container matColumnDef="actions">
-        <th class="text-capitalize" mat-header-cell *matHeaderCellDef> Actions </th>
-        <td mat-cell *matCellDef="let row">
-          <div class="d-flex flex-md-row  gap-2">
-            <button mat-icon-button (click)="onActionClick(row, 'edit')">
-              <mat-icon class="text-success" fontIcon="edit"></mat-icon>
-            </button>
-            <button mat-icon-button (click)="onActionClick(row, 'delete')">
-              <mat-icon class="text-danger" fontIcon="delete"></mat-icon>
-            </button>
-          </div>
-        </td>
-      </ng-container>
+    <!-- Columna para editar y eliminar -->
+    @if (actions) {
+    <ng-container matColumnDef="actions">
+      <th class="text-capitalize" mat-header-cell *matHeaderCellDef> Actions </th>
+      <td mat-cell *matCellDef="let row">
+        <div class="d-flex flex-md-row  gap-2">
+          <button mat-icon-button (click)="onActionClick(row, 'edit')">
+            <mat-icon class="text-success" fontIcon="edit"></mat-icon>
+          </button>
+          <button mat-icon-button (click)="onActionClick(row, 'delete')">
+            <mat-icon class="text-danger" fontIcon="delete"></mat-icon>
+          </button>
+        </div>
+      </td>
+    </ng-container>
+    }
 
     <tr mat-header-row *matHeaderRowDef="tableHeader?.concat(['actions'])"></tr>
     <tr mat-row *matRowDef="let row; columns: tableHeader?.concat(['actions']);"></tr>

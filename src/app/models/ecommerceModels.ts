@@ -151,6 +151,7 @@ export interface Orders {
   status: Status;
   orderType?: 'COMPRA' | 'VENTA';
   customer: Customer;
+  orderDetail?: OrderDetail[]
 }
 
 export interface Status{
@@ -271,7 +272,7 @@ product
 --------------->
 */
 export interface Product {
-  product_id: number;
+  productId: number;
   code: string;
   name?: string;
   productGama: ProductGama | number;
@@ -288,12 +289,13 @@ order_detail
 --------------->
 */
 export interface OrderDetail {
+  orderDetailId?: number;
   amount?: number;
-  unit_price?: number;
-  total_price?: number;
-  order_line?: number;
-  product_id: number;
-  customer_order_id: number;
+  unitPrice?: number;
+  totalPrice?: number;
+  orderLine?: string;
+  product?: Product;
+  customerOrder?: Orders;
 }
 
 /*

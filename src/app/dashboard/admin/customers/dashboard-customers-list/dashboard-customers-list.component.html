@@ -10,20 +10,11 @@
                 Filtrar
             </button>
             <mat-menu #beforeMenu="matMenu" xPosition="after">
-                <button mat-menu-item [matMenuTriggerFor]="city">Buscar Clientes Por ciudad</button>
+                <button mat-menu-item (click)="filterByCity()">Buscar Clientes Por ciudad</button>
                 <button (click)="filterByOrderStatusPendent()" mat-menu-item>Buscar por Pedidos pendientes</button>
             </mat-menu>
 
-            <mat-menu #city="matMenu" xPosition="after">
-                <app-dashboard-select [selectConfig]="
-                    {
-                        dataId: 'cityId',
-                        dataName: 'name',
-                        tableName: 'ciudades'
-
-                }" (selectChanges)="filterByCity($event)"></app-dashboard-select>
-
-            </mat-menu>
+          
         </div>
 
         <div class="d-flex align-items-center">
