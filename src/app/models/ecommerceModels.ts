@@ -151,7 +151,7 @@ export interface Orders {
   status: Status;
   orderType?: 'COMPRA' | 'VENTA';
   customer: Customer;
-  orderDetail?: OrderDetail[]
+  orderDetails?: OrderDetail[]
 }
 
 export interface Status{

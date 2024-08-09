@@ -29,10 +29,11 @@
             <app-dashboard-select 
                 class="w-100"
                 [selectConfig]="{
+                    dataId: 'orderStatusId',
                     dataName: ['orderStatusId', 'name'],
                     tableName: 'estados'
                 }"
-                [dataSelected]="statusId"
+                [dataSelected]="status"
                 (selectChanges)="statusSelect($event)"
             >
             </app-dashboard-select>
@@ -42,7 +43,8 @@
             <app-dashboard-select 
                 class="w-100"
                 [selectConfig]="{
-                    dataName: ['orderTypeId', 'name'],
+                    dataId: 'orderTypeId',
+                    dataName: ['name'],
                     tableName: 'order-type'
                 }"
                 [dataSelected]="orderType"
@@ -55,18 +57,18 @@
             <app-dashboard-select 
                 class="w-100"
                 [selectConfig]="{
+                    dataId: 'customerId',
                     dataName: ['firstName'],
                     tableName: 'clientes'
                 }"
-                [dataSelected]="customerId"
+                [dataSelected]="customer"
                 (selectChanges)="customerSelect($event)"
             >
             </app-dashboard-select>
         </div>
 
-        @if (orders) {
-            <app-dashboard-orders-details-list (actionClicked)="addNewOrderDetail($event)" [orderDetail]="orders.orderDetail"></app-dashboard-orders-details-list>
-        }
+        <app-dashboard-orders-details-list (actionClicked)="addNewOrderDetail($event)" [orderDetail]="orderDetails()"></app-dashboard-orders-details-list>
+
 
         <button mat-flat-button color="primary" type="submit">Submit</button>
     </form>

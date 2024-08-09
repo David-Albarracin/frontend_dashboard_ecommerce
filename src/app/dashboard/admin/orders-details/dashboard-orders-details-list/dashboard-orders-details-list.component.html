@@ -4,7 +4,7 @@
             Agregar un Producto
         </button>
     </div>
-    @if (orderDetail) {
+    @if (orderDetail?.length) {
         @for (order of orderDetail; track $index) {
             <div class="row w-100 gap-3 align-items-center my-2 p-1 shadow justify-content-between">
                 <div class="col-lg-2">

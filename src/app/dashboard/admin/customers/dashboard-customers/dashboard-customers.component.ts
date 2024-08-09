@@ -63,10 +63,12 @@ export class DashboardCustomersComponent implements OnDestroy {
   }
 
   employee!:any
+  documentType!:string;
 
   createForm(data?: Customer): void {
     // Extracting customerGamaId from data if it exists
     this.employee = (data?.employee as Employee);
+    this.documentType = data?.documentType || '';
   
     this.customerForm = this.fb.group({
       //customerId: [data?.customerId || '', Validators.required],
@@ -89,7 +91,8 @@ export class DashboardCustomersComponent implements OnDestroy {
           this.router.navigateByUrl("/dashboard/" + this.tableName).then(() => { this.dialog.openSuccess(res.name); })
         })
       } else {
-        this.cacheService.httpCreate(this.tableName, this.customerForm.value).subscribe((res: any) => {
+        console.log(this.customerForm.value);
+        this.cacheService.httpCreate(this.tableName, this.customerForm.value).subscribe((res: any) => {  
           this.router.navigateByUrl("/dashboard/" + this.tableName).then(() => { this.dialog.openSuccess(res.name); })
         })
       }
@@ -98,9 +101,12 @@ export class DashboardCustomersComponent implements OnDestroy {
   }
 
   handleSelectChangeEmployee(data: any): void {
-    this.customerForm.get('employee')!.setValue(data.employeeId);
+    this.customerForm.get('employee')!.setValue(data);
   }
 
+  handleSelectChangeDocumentType(data: any): void {
+    this.customerForm.get('documentType')!.setValue(data.documentTypeId);
+  }
 
   ngOnDestroy() {
     this.subs$.forEach(e => e.unsubscribe())

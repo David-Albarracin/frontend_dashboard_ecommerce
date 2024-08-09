@@ -62,20 +62,20 @@ export class DashboardPaymentsComponent implements OnDestroy {
 
   }
 
-  payMethodId!:any;
-  orderId!:any;
+  payMethod!:any;
+  order!:any;
 
   createForm(data?: Transactions): void {
     // Extracting transactionsGamaId from data if it exists
-    this.payMethodId = (data?.payMethod as PayMethods)?.payMethodId || '';
-    this.orderId = (data?.order as Orders)?.orderId || '';
+    this.payMethod = (data?.payMethod as PayMethods) || '';
+    this.order = (data?.order as Orders) || '';
   
     this.transactionsForm = this.fb.group({
       transactionId: [data?.transactionId || '', [Validators.required]],
       amount: [data?.amount || ''],
       transactionDate: [data?.transactionDate || ''],
-      payMethod: [this.payMethodId || ''],
-      order: [this.orderId || ''],
+      payMethod: [this.payMethod|| ''],
+      order: [this.order || ''],
      
     });
   }

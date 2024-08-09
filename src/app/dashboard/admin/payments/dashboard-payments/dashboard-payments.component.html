@@ -20,15 +20,34 @@
             <input matInput formControlName="transactionDate" type="datetime" />
         </mat-form-field>
 
-        <mat-form-field>
-            <mat-label>Payment Method</mat-label>
-            <input matInput formControlName="payMethod" />
-        </mat-form-field>
 
-        <mat-form-field>
-            <mat-label>Order</mat-label>
-            <input matInput formControlName="order" />
-        </mat-form-field>
+        <div>
+            <app-dashboard-select 
+                class="w-100"
+                [selectConfig]="{
+                    dataId: 'payMethodId',
+                    dataName: ['name'],
+                    tableName: 'pay-method'
+                }"
+                [dataSelected]="payMethod"
+                (selectChanges)="handleSelectChange($event, 'payMethod')"
+            >
+            </app-dashboard-select>
+        </div>
+
+        <div>
+            <app-dashboard-select 
+                class="w-100"
+                [selectConfig]="{
+                    dataId: 'orderId',
+                    dataName: ['orderDate'],
+                    tableName: 'pedidos'
+                }"
+                [dataSelected]="order"
+                (selectChanges)="handleSelectChange($event, 'order')"
+            >
+            </app-dashboard-select>
+        </div>
 
         <button mat-flat-button color="primary" type="submit">Submit</button>
     </form>

@@ -35,15 +35,25 @@
             }
         </mat-form-field>
 
-        <mat-form-field>
-            <mat-label>Document Type</mat-label>
-            <input matInput formControlName="documentType" />
-        </mat-form-field>
+        <div>
+            <app-dashboard-select 
+                class="w-100"
+                [selectConfig]="{
+                    dataId: 'documentTypeId',
+                    dataName: ['name'],
+                    tableName: 'document-type'
+                }"
+                [dataSelected]="documentType"
+                (selectChanges)="handleSelectChangeDocumentType($event)"
+            >
+            </app-dashboard-select>
+        </div>
 
         <div>
             <app-dashboard-select 
                 class="w-100"
                 [selectConfig]="{
+                    dataId: 'employeeId',
                     dataName: ['firstName'],
                     tableName: 'empleados'
                 }"

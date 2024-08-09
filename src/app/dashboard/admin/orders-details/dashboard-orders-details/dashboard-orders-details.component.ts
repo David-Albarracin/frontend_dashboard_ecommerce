@@ -23,6 +23,7 @@ export class DashboardOrdersDetailsComponent implements OnInit {
   fb = inject(FormBuilder);
 
   selectConfig = {
+    dataId: 'productId',
     dataName: ['productId', 'name'],
     tableName: 'productos'
   }

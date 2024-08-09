@@ -87,6 +87,13 @@ export class CacheService {
       endPoint: "order_status",
       inMenu: false
       
+    },
+    {
+      title: "Gestionar Métodos de Pago",
+      icon: "status",
+      url: "pay-method",
+      endPoint: "pay_methods",
+      inMenu: false
     }
   ];
 

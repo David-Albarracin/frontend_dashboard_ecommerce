@@ -1,5 +1,5 @@
 import { Orders, Employee, Supplier, Customer, Status } from './../../../../models/ecommerceModels';
-import { Component, inject, OnDestroy } from '@angular/core';
+import { Component, inject, OnDestroy, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CacheService } from '../../../../services/cache.service';
@@ -66,16 +66,17 @@ export class DashboardOrdersComponent implements OnDestroy {
 
   }
 
-  customerId!:any;
-  statusId!:any;
+  customer!:any;
+  status!:any;
   orderType!:any;
+  orderDetails = signal<any[]>([]);
 
   createForm(data?: Orders): void {
-    console.log(data);
     
+    this.orderDetails.set(data?.orderDetails? data.orderDetails:[]);
     // Extracting ordersGamaId from data if it exists
-    this.customerId = (data?.customer as Customer)?.customerId || '';
-    this.statusId = (data?.status as Status)?.orderStatusId || '';
+    this.customer = (data?.customer as Customer);
+    this.status = (data?.status as Status);
     this.orderType = data?.orderType || ''
   
     this.ordersForm = this.fb.group({
@@ -84,17 +85,17 @@ export class DashboardOrdersComponent implements OnDestroy {
       expectedDate: [data?.expectedDate || ''],
       deliverDate: [data?.deliverDate || ''],
       commentary: [data?.commentary || ''],
-      status: [this.statusId, Validators.required],
+      status: [this.status],
       orderType: [data?.orderType || ''],
-      customer: [this.customerId]
+      customer: [this.customer],
+      orderDetails:[]
     });
   }
 
   addNewOrderDetail(data:any){
     //console.log(data);
     console.log(data);
-    
-    this.orders.orderDetail?.push(data)
+    this.orderDetails().push(data);
   }
 
 
@@ -102,7 +103,8 @@ export class DashboardOrdersComponent implements OnDestroy {
     if (this.ordersForm.valid) {
       //console.log(typeof(this.ordersForm.value["ordersGama"]));
       //this.ordersForm.value["ordersGama"] as String
-      //console.log( this.ordersForm.value );
+      this.ordersForm.get("orderDetails")?.setValue(this.orderDetails());
+      console.log( this.ordersForm.value );
       
       if ((this.orders as Orders).orderId) {
         this.cacheService.httpUpdate(this.tableName, (this.orders as any).orderId, this.ordersForm.value).subscribe((res: any) => {
@@ -118,7 +120,7 @@ export class DashboardOrdersComponent implements OnDestroy {
   }
 
   customerSelect(data: any): void {
-    this.ordersForm.get("customer")!.setValue(data.customerId);
+    this.ordersForm.get("customer")!.setValue(data);
   }
 
   orderTypeSelect(data: any): void {
@@ -126,7 +128,7 @@ export class DashboardOrdersComponent implements OnDestroy {
   }
 
   statusSelect(data: any): void {
-    this.ordersForm.get("status")!.setValue(data.statusId);
+    this.ordersForm.get("status")!.setValue(data);
   }
 
   ngOnDestroy() {
