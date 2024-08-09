@@ -17,11 +17,12 @@ import { DialogPortalService } from '../../../../services/dialog-portal.service'
 import { DashboardSelectComponent } from '../../dashboard-select/dashboard-select.component';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { DashboardOrdersDetailsComponent } from "../../orders-details/dashboard-orders-details/dashboard-orders-details.component";
+import { DashboardOrdersDetailsListComponent } from "../../orders-details/dashboard-orders-details-list/dashboard-orders-details-list.component";
 
 @Component({
   selector: 'app-dashboard-orders',
   standalone: true,
-  imports: [MatFormFieldModule, ReactiveFormsModule, MatSelectModule, MatInputModule, MatButtonModule, DashboardSelectComponent, DashboardOrdersDetailsComponent],
+  imports: [MatFormFieldModule, ReactiveFormsModule, MatSelectModule, MatInputModule, MatButtonModule, DashboardSelectComponent, DashboardOrdersDetailsComponent, DashboardOrdersDetailsListComponent],
   templateUrl: './dashboard-orders.component.html',
   styleUrl: './dashboard-orders.component.scss'
 })
@@ -56,6 +57,8 @@ export class DashboardOrdersComponent implements OnDestroy {
         : of({});
       this.subs$.push(orders$.subscribe(res => {
         this.orders = res as Orders;
+        console.log(res);
+        
         this.createForm(this.orders as Orders)
 
       }))
@@ -87,6 +90,12 @@ export class DashboardOrdersComponent implements OnDestroy {
     });
   }
 
+  addNewOrderDetail(data:any){
+    //console.log(data);
+    console.log(data);
+    
+    this.orders.orderDetail?.push(data)
+  }
 
 
   onSubmit(): void {
@@ -108,12 +117,16 @@ export class DashboardOrdersComponent implements OnDestroy {
     }
   }
 
-  handleSelectChange(data: any, rowName:string): void {
-    this.ordersForm.get(rowName)!.setValue(data);
+  customerSelect(data: any): void {
+    this.ordersForm.get("customer")!.setValue(data.customerId);
   }
 
-  addProduct(){
+  orderTypeSelect(data: any): void {
+    this.ordersForm.get("orderType")!.setValue(data);
+  }
 
+  statusSelect(data: any): void {
+    this.ordersForm.get("status")!.setValue(data.statusId);
   }
 
   ngOnDestroy() {

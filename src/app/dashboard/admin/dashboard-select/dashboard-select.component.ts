@@ -1,7 +1,7 @@
 import { Component, EventEmitter, inject, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import {AbstractControl, FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { CacheService } from '../../../services/cache.service';
 
 @Component({
@@ -14,10 +14,11 @@ import { CacheService } from '../../../services/cache.service';
 export class DashboardSelectComponent implements OnChanges {
 
   cacheService = inject(CacheService)
+  fb = inject(FormBuilder)
 
   @Input() selectConfig!:{
-    dataId:string,
-    dataName: string,
+    //dataId: string,
+    dataName: string[],
     tableName: string
   }
 
@@ -28,11 +29,14 @@ export class DashboardSelectComponent implements OnChanges {
 
   selectData:any;
 
-  onSelect = new FormControl();
-
+  formSelect = this.fb.group({
+    onSelect: [] // Default value can be set to null or a default object
+  });
+  //objectSelect:any
+  
 
   selectChange(){    
-    this.selectChanges.emit(this.onSelect.value);
+    this.selectChanges.emit(this.formSelect.get("onSelect")?.value);
   }
   
   ngOnChanges(changes: SimpleChanges): void {
@@ -52,9 +56,13 @@ export class DashboardSelectComponent implements OnChanges {
 
     }
     if (changes['dataSelected']) {
-      this.onSelect = new FormControl(this.dataSelected);
+      this.formSelect.get("onSelect")?.setValue(this.dataSelected)
+      console.log(this.dataSelected);
+      
     }
   }
   
-
+  public objectComparisonFunction = function( option:any, value:any ) : boolean {
+    return option.id === value.id;
+  }
 }

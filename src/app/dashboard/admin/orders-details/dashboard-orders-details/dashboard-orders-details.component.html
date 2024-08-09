@@ -1,18 +1,29 @@
-<div class="row w-100 gap-3">
-    <div class="col-lg-3">
-        {{orderDetail.product?.productId}}
-    </div>
-    <div class="col-lg-3">
-        {{orderDetail.product?.name}}
-    </div>
-    <div class="col-lg-3">
-        <div class="d-flex gap-2">
-            <button>-</button>
-            <span>{{orderDetail.amount}}</span>
-            <button>+</button>
+<div class="p-2">
+    <form class="d-flex flex-column gap-3 pt-3" [formGroup]="orderForm">
+        <div>
+            <app-dashboard-select (selectChanges)="selectData($event)" [selectConfig]="selectConfig"></app-dashboard-select>
         </div>
-    </div>
-    <div class="col-lg-3">
-        <button>delete</button>
-    </div>
+
+        <mat-form-field>
+            <mat-label>Amount</mat-label>
+            <input matInput formControlName="amount" type="number" />
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Line Number</mat-label>
+            <input matInput formControlName="lineNumber" type="number" />
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Total Price</mat-label>
+            <input matInput formControlName="totalPrice" type="number" />
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Unit Price</mat-label>
+            <input matInput formControlName="unitPrice" type="number" />
+        </mat-form-field>
+
+        <button [mat-dialog-close]="orderForm" mat-flat-button color="primary" type="submit">Submit</button>
+    </form>
 </div>

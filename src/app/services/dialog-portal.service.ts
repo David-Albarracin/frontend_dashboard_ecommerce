@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { ErrorDialogComponent } from '../dialogs/error-dialog/error-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DashboardNotificationsComponent } from '../dashboard/admin/dashboard-notifications/dashboard-notifications.component';
+import { DashboardOrdersDetailsComponent } from '../dashboard/admin/orders-details/dashboard-orders-details/dashboard-orders-details.component';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +38,13 @@ export class DialogPortalService {
     })
   }
 
+
+  openOrderDetail(){
+    return this.dialog.open(DashboardOrdersDetailsComponent, {
+      width: '350px',
+      //data: { typeSelect:typeSelect, tableName:tableName}
+    })
+  }
 
 
 }

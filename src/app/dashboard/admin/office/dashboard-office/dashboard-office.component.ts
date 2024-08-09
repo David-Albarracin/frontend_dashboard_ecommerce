@@ -100,7 +100,7 @@ export class DashboardOfficeComponent implements OnDestroy {
   }
 
   handleSelectChange(data: any, rowName:string): void {
-    this.officeForm.get(rowName)!.setValue(data);
+    this.officeForm.get(rowName)!.setValue(data.cityId);
   }
 
 

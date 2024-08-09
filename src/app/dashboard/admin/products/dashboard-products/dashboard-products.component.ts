@@ -102,13 +102,13 @@ export class DashboardProductsComponent implements OnDestroy {
 
   handleSelectChangeGama(data: any): void {
 
-    this.productForm.get('productGama')!.setValue(data);
+    this.productForm.get('productGama')!.setValue(data.productGamaId);
   }
 
   
   handleSelectChangeProvider(data: any): void {
 
-    this.productForm.get('supplier')!.setValue(data);
+    this.productForm.get('supplier')!.setValue(data.supplierId);
   }
 
   ngOnDestroy() {

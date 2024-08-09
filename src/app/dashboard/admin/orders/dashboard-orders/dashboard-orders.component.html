@@ -29,12 +29,11 @@
             <app-dashboard-select 
                 class="w-100"
                 [selectConfig]="{
-                    dataId: 'orderStatusId',
-                    dataName: 'name',
+                    dataName: ['orderStatusId', 'name'],
                     tableName: 'estados'
                 }"
                 [dataSelected]="statusId"
-                (selectChanges)="handleSelectChange($event, 'status')"
+                (selectChanges)="statusSelect($event)"
             >
             </app-dashboard-select>
         </div>
@@ -43,46 +42,31 @@
             <app-dashboard-select 
                 class="w-100"
                 [selectConfig]="{
-                    dataId: 'orderTypeId',
-                    dataName: 'name',
+                    dataName: ['orderTypeId', 'name'],
                     tableName: 'order-type'
                 }"
                 [dataSelected]="orderType"
-                (selectChanges)="handleSelectChange($event, 'orderType')"
+                (selectChanges)="orderTypeSelect($event)"
             >
             </app-dashboard-select>
         </div>
-
 
         <div>
             <app-dashboard-select 
                 class="w-100"
                 [selectConfig]="{
-                    dataId: 'customerId',
-                    dataName: 'firstName',
+                    dataName: ['firstName'],
                     tableName: 'clientes'
                 }"
                 [dataSelected]="customerId"
-                (selectChanges)="handleSelectChange($event, 'customer')"
+                (selectChanges)="customerSelect($event)"
             >
             </app-dashboard-select>
         </div>
 
-        <div>
-            <div class="d-flex">
-                <button type="button" mat-flat-button (click)="addProduct()">
-                    Agregar un Producto
-                </button>
-            </div>
-            @if (orders.orderDetail != null) {
-                @for (orderDetail of orders.orderDetail; track $index) {
-                    <app-dashboard-orders-details [orderDetail]="orderDetail"></app-dashboard-orders-details>
-                }
-            }@else {
-                <p>No tienes Productos todavía</p>
-            }
-           
-        </div>
+        @if (orders) {
+            <app-dashboard-orders-details-list (actionClicked)="addNewOrderDetail($event)" [orderDetail]="orders.orderDetail"></app-dashboard-orders-details-list>
+        }
 
         <button mat-flat-button color="primary" type="submit">Submit</button>
     </form>

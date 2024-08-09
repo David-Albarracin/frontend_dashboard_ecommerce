@@ -1,13 +1,21 @@
-<mat-form-field class="w-100">
-    <mat-label>{{selectConfig.tableName}}</mat-label>
-    <mat-select [formControl]="onSelect" (selectionChange)="selectChange()">
-        @for (data of selectData; track $index) {
-        <mat-option class="text-capitalize" [value]="data[selectConfig.dataId]">{{ data[selectConfig.dataName] }}</mat-option>
+<form [formGroup]="formSelect">
+    <mat-form-field class="w-100">
+        <mat-label>{{selectConfig.tableName}}</mat-label>
+        <mat-select formControlName="onSelect" [compareWith]="objectComparisonFunction" (selectionChange)="selectChange()">
+            @for (data of selectData; track $index) {
+            <mat-option class="text-capitalize" [value]="data">
+                <div class="d-flex g-1">
+                    @for (dataName of selectConfig.dataName; track $index) {
+                        <span class="ms-1">{{data[dataName]}}</span>
+                    }
+                </div>
+            </mat-option>
+            }
+        </mat-select>
+        @if (!formSelect.valid) {
+        <mat-error>
+            {{selectConfig.tableName}} is required
+        </mat-error>
         }
-    </mat-select>
-    @if (!onSelect) {
-    <mat-error>
-        {{selectConfig.tableName}} is required
-    </mat-error>
-    }
-</mat-form-field>
+    </mat-form-field>
+</form>

@@ -1,1 +1,42 @@
-<p>dashboard-orders-details-list works!</p>
+<div>
+    <div class="d-flex">
+        <button type="button" mat-flat-button (click)="addProduct()">
+            Agregar un Producto
+        </button>
+    </div>
+    @if (orderDetail) {
+        @for (order of orderDetail; track $index) {
+            <div class="row w-100 gap-3 align-items-center my-2 p-1 shadow justify-content-between">
+                <div class="col-lg-2">
+                    <span>
+                        {{order.product?.productId}}
+                    </span>
+                </div>
+                <div class="col-lg-2">
+                    <span>
+                        {{order.product?.name}}
+                    </span>
+                </div>
+                <div class="col-lg-2">
+                    <div class="d-flex gap-2 align-items-center text-center">
+                        <button mat-icon-button>
+                            <mat-icon fontIcon="remove"></mat-icon>
+                        </button>
+                        <span>{{order.amount}}</span>
+                        <button mat-icon-button>
+                            <mat-icon fontIcon="add"></mat-icon>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <button mat-icon-button>
+                        <mat-icon fontIcon="clear"></mat-icon>
+                    </button>
+                </div>
+            </div>
+        }
+    }@else {
+        <p>No tienes Productos todavía</p>
+    }
+   
+</div>

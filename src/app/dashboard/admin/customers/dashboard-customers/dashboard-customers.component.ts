@@ -62,11 +62,11 @@ export class DashboardCustomersComponent implements OnDestroy {
 
   }
 
-  employeeId!:any
+  employee!:any
 
   createForm(data?: Customer): void {
     // Extracting customerGamaId from data if it exists
-    this.employeeId = (data?.employee as Employee)?.employeeId || '';
+    this.employee = (data?.employee as Employee);
   
     this.customerForm = this.fb.group({
       //customerId: [data?.customerId || '', Validators.required],
@@ -76,7 +76,7 @@ export class DashboardCustomersComponent implements OnDestroy {
       lastSurname: [data?.lastSurname || ''],
       documentNumber: [data?.documentNumber || '', Validators.required],
       documentType: [data?.documentType || ''],
-      employee: [this.employeeId],
+      employee: [data?.employee],
     });
   }
 
@@ -98,7 +98,7 @@ export class DashboardCustomersComponent implements OnDestroy {
   }
 
   handleSelectChangeEmployee(data: any): void {
-    this.customerForm.get('employee')!.setValue(data);
+    this.customerForm.get('employee')!.setValue(data.employeeId);
   }
 
 

@@ -44,11 +44,10 @@
             <app-dashboard-select 
                 class="w-100"
                 [selectConfig]="{
-                    dataId: 'employeeId',
-                    dataName: 'firstName',
+                    dataName: ['firstName'],
                     tableName: 'empleados'
                 }"
-                [dataSelected]="employeeId"
+                [dataSelected]="employee"
                 (selectChanges)="handleSelectChangeEmployee($event)"
             >
             </app-dashboard-select>

@@ -20,7 +20,7 @@ export class DashboardNotificationsComponent implements OnInit{
 
   title!:string
 
-  selectConfigData!:{ dataId: string; dataName: string; tableName: string; }
+  selectConfigData!:{ dataName: string[]; tableName: string; }
 
   selectData!:string
 
@@ -33,8 +33,7 @@ export class DashboardNotificationsComponent implements OnInit{
     switch (this.data.typeSelect) {
       case "city":
         this.selectConfigData = {
-          dataId: 'cityId',
-          dataName: 'name',
+          dataName: ['cityId', 'name'],
           tableName: 'ciudades'
         }
         this.title = `Buscar ${this.data.tableName} por ciudades`
@@ -43,8 +42,7 @@ export class DashboardNotificationsComponent implements OnInit{
        case "status":
 
         this.selectConfigData = {
-          dataId: 'orderStatusId',
-          dataName: 'name',
+          dataName: ['name'],
           tableName: 'estados'
         }
         this.title =  `Buscar ${this.data.tableName} por estado de pedidos`
