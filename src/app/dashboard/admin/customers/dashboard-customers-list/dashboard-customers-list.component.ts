@@ -31,9 +31,10 @@ export class DashboardCustomersListComponent implements OnInit{
   tableHeader=[
     "customerId",
     "documentNumber",
+    "documentType",
     "firstName",
     "audit.isActive",
-    "employee.firstName"
+    
   ]
 
   tableData=[]
@@ -57,11 +58,18 @@ export class DashboardCustomersListComponent implements OnInit{
         break;
     
       case "delete":
-        this.cacheService.httpDeleteById(this.tableName, data.row.customerId).subscribe(res => {
-          console.log(res);
-          
-        });
-        break;
+        if (confirm("Esta Seguro de Continuar").valueOf()) {
+          this.cacheService.httpDeleteById(this.tableName, data.row.customerId).subscribe((res:any) => {
+            //console.log(res);
+            if (res.firstName) {
+              this.dialogPortal.openSuccessDelete(res.firstName)
+              this.tableData = this.tableData.filter((row: any) => row.customerId !== data.row.customerId);
+            }else{
+              this.dialogPortal.openError(res)
+            }
+          });
+          break;
+        }
     }
   }
 

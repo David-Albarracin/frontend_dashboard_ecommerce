@@ -8,6 +8,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CacheService } from '../../../../services/cache.service';
 import { MatChipsModule } from '@angular/material/chips';
+import { Product } from '../../../../models/ecommerceModels';
+import { DialogPortalService } from '../../../../services/dialog-portal.service';
 
 @Component({
   selector: 'app-dashboard-products-list',
@@ -26,6 +28,8 @@ export class DashboardProductsListComponent implements OnInit{
 
   cacheService = inject(CacheService);
   router = inject(Router);
+  dialogPortal = inject(DialogPortalService);
+
 
   tableName= "productos"
 
@@ -69,11 +73,18 @@ export class DashboardProductsListComponent implements OnInit{
         break;
     
       case "delete":
-        this.cacheService.httpDeleteById(this.tableName, data.row.productId).subscribe(res => {
-          console.log(res);
-          
-        });
-        break;
+        if (confirm("Esta Seguro de Continuar").valueOf()) {
+          this.cacheService.httpDeleteById(this.tableName, data.row.productId).subscribe((res:any) => {
+               //console.log(res);
+               if (res.name) {
+                this.dialogPortal.openSuccessDelete(res.name)
+                this.tableData = this.tableData.filter((row: any) => row.productId !== data.row.productId);
+              }else{
+                this.dialogPortal.openError(res)
+              }
+            });
+          break;
+        }
     }
   }
 

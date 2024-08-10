@@ -98,6 +98,9 @@ export interface Customer {
   documentType: 'CEDULA_CIUDADANIA' | 'CEDULA_EXTRANJERIA' | 'NIT' | 'PASAPORTE';
   employee: Employee;
   audit: Audit;
+
+  addresses: CustomerAddress[];
+  phones: CustomerPhone[];
 }
 
 /*
@@ -110,7 +113,7 @@ export interface CustomerAddress {
   address_line1: string;
   address_line2: string;
   customer_id: number;
-  city_id: number;
+  city: City
 }
 
 /*

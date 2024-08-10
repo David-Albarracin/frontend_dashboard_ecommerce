@@ -1,0 +1,80 @@
+<div class="row w-100">
+    <div class="col-lg-6">
+        <div class="p-1">
+
+            <form class="d-flex flex-column gap-3 pt-3" [formGroup]="phoneForm">
+                <mat-form-field>
+                    <mat-label>Numero de Telefono</mat-label>
+                    <input matInput formControlName="phoneNumber" />
+                </mat-form-field>
+        
+                <mat-form-field>
+                    <mat-label>Tipo de Telefono</mat-label>
+                    <input matInput formControlName="telephoneType" />
+                </mat-form-field>
+        
+                <button mat-flat-button color="primary" (click)="addPhone()" type="button">agregar Telefono</button>
+            </form>
+        </div>
+
+        <div class="row py-2">
+            @for (phone of phones; track $index) {
+                <div class="col-12">
+                    <div class="d-flex">
+                        <span>{{phone.phoneNumber}}</span>
+                        <span class="ps-1">{{phone.telephoneType}}</span>
+                    </div>
+
+                </div>
+               
+            }
+        </div>
+
+    </div>
+
+    <div class="col-lg-6">
+        <div class="p-1">
+
+            <form class="d-flex flex-column gap-3 pt-3" [formGroup]="addressesForm">
+                <mat-form-field>
+                    <mat-label>Dirección</mat-label>
+                    <input matInput formControlName="addressLine1" />
+                </mat-form-field>
+        
+                <mat-form-field>
+                    <mat-label>Mas Detalles</mat-label>
+                    <input matInput formControlName="addressLine2" />
+                </mat-form-field>
+
+                <div>
+                    <app-dashboard-select 
+                        class="w-100"
+                        [selectConfig]="{
+                            dataId: 'cityId',
+                            dataName: ['name'],
+                            tableName: 'ciudades'
+                        }"
+                        [dataSelected]="city"
+                        (selectChanges)="handleSelectChange($event)"
+                    >
+                    </app-dashboard-select>
+                </div>
+        
+                <button mat-flat-button color="primary" (click)="addAddresses()" type="button">agregar dirección</button>
+            </form>
+
+            <div class="row py-2">
+                @for (address of addresses; track $index) {
+                    <div class="col-12">
+                        <div class="d-felx">
+                            <span >{{address.addressLine1}}</span>
+                            <span class="ps-1">{{address.addressLine2}}</span>
+                            <span class="ps-1">{{address.city?.name}}</span>
+                        </div>
+                    </div>
+                }
+            </div>
+           
+        </div>
+    </div>
+</div>

@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CacheService } from '../../../../services/cache.service';
+import { DialogPortalService } from '../../../../services/dialog-portal.service';
 
 @Component({
   selector: 'app-dashboard-payments-list',
@@ -22,6 +23,7 @@ export class DashboardPaymentsListComponent implements OnInit{
 
   cacheService = inject(CacheService);
   router = inject(Router);
+  dialogPortal = inject(DialogPortalService)
 
   tableName= "pagos"
 
@@ -60,12 +62,28 @@ export class DashboardPaymentsListComponent implements OnInit{
         break;
     
       case "delete":
-        this.cacheService.httpDeleteById(this.tableName, data.row.transactionId).subscribe(res => {
-          console.log(res);
-          
-        });
-        break;
+        if (confirm("Esta Seguro de Continuar").valueOf()) {
+          this.cacheService.httpDeleteById(this.tableName, data.row.transactionId).subscribe((res:any) => {
+            //console.log(res);
+            if (res.transactionId) {
+              this.dialogPortal.openSuccessDelete(res.transactionId)
+              this.tableData = this.tableData.filter((row: any) => row.transactionId !== data.row.transactionId);
+            }else{
+              this.dialogPortal.openError(res)
+            }
+          });
+          break;
+        }
     }
+  }
+
+  filterByCustomer(){
+    this.dialogPortal.openFilterDialog('customer', this.tableName)
+  }
+
+  filterByPayMethod(){
+    this.dialogPortal.openFilterDialog('paymethod', this.tableName)
+
   }
 
 }

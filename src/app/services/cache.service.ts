@@ -94,6 +94,13 @@ export class CacheService {
       url: "pay-method",
       endPoint: "pay_methods",
       inMenu: false
+    },
+    {
+      title: "Gestionar Cargos",
+      icon: "status",
+      url: "cargo",
+      endPoint: "charges",
+      inMenu: false
     }
   ];
 
@@ -115,10 +122,14 @@ export class CacheService {
   }
 
   httpCreate = (urlName: string, data:any) => {
+    console.log(data);
+    
     return this.http.post<{}>(`${this.URL}/${this.findEndPoint(urlName)}`, data)
   }
 
   httpUpdate= (urlName: string, id:string, data:any) => {
+    console.log(data);
+
     return this.http.put<{}>(`${this.URL}/${this.findEndPoint(urlName)}/${id}`, data)
   }
 

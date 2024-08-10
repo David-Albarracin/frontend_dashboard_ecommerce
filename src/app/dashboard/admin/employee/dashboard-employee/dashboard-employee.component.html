@@ -30,10 +30,24 @@
           <input matInput formControlName="documentNumber" />
       </mat-form-field>
 
-      <mat-form-field>
-          <mat-label>Document Type</mat-label>
-          <input matInput formControlName="documentType" />
-      </mat-form-field>
+      <div>
+        <app-dashboard-select 
+            class="w-100"
+
+            [selectConfig]="{
+                dataId: 'documentTypeId',
+                dataName: ['name'],
+                tableName: 'document-type'
+            }"
+
+            [dataSelected]="documentType"
+
+            (selectChanges)="handleSelectChangeDocument($event, 'documentType')"
+        
+        >
+        
+        </app-dashboard-select>
+    </div>
 
       <mat-form-field>
           <mat-label>Phone Number</mat-label>
@@ -45,25 +59,68 @@
           }
       </mat-form-field>
 
-      <mat-form-field>
-          <mat-label>Office</mat-label>
-          <input matInput formControlName="office" />
-      </mat-form-field>
+      <div>
+        <app-dashboard-select 
+            class="w-100"
+
+            [selectConfig]="{
+                dataId: 'officeId',
+                dataName: ['officeId'],
+                tableName: 'oficinas'
+            }"
+
+            [dataSelected]="office"
+
+            (selectChanges)="handleSelectChange($event, 'office')"
+        
+        >
+        
+        </app-dashboard-select>
+    </div>
 
       <mat-form-field>
           <mat-label>Extension</mat-label>
           <input matInput formControlName="extension" />
       </mat-form-field>
 
-      <mat-form-field>
-          <mat-label>Charge</mat-label>
-          <input matInput formControlName="charge" />
-      </mat-form-field>
 
-      <mat-form-field>
-          <mat-label>Boss</mat-label>
-          <input matInput formControlName="boss" />
-      </mat-form-field>
+      <div>
+        <app-dashboard-select 
+            class="w-100"
+
+            [selectConfig]="{
+                dataId: 'chargeId',
+                dataName: ['chargeName'],
+                tableName: 'cargo'
+            }"
+
+            [dataSelected]="charge"
+
+            (selectChanges)="handleSelectChange($event, 'charge')"
+        
+        >
+        
+        </app-dashboard-select>
+    </div>
+
+      <div>
+        <app-dashboard-select 
+            class="w-100"
+
+            [selectConfig]="{
+                dataId: 'employeeId',
+                dataName: ['firstName'],
+                tableName: 'boss'
+            }"
+
+            [dataSelected]="boss"
+
+            (selectChanges)="handleSelectChange($event, 'boss')"
+        
+        >
+        
+        </app-dashboard-select>
+    </div>
 
       <button mat-flat-button color="primary" type="submit">Submit</button>
   </form>

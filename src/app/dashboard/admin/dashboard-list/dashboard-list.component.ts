@@ -75,13 +75,48 @@ export class DashboardListComponent implements OnInit {
         
         }
         if (tableName == 'pedidos') {
-          console.log(res);
-          
           this.tableHeader = [
             "orderId",
             "orderDate",
             "status.name",
             "orderType"
+          ]
+
+          this.actions = true;
+
+        }
+
+        if (tableName == 'pagos') {
+          //console.log(this.tableData);
+          
+          this.tableHeader = [
+            "transactionId",
+            "amount",
+            "transactionDate",
+            "payMethod.name",
+            "order.orderType",
+            "order.status.name"
+            //"order.customer.firstName"
+
+          ]
+
+          this.actions = true;
+
+        }
+
+        if (tableName == 'empleados') {
+          //console.log(this.tableData);
+          
+          this.tableHeader = [
+            "employeeId",
+            "firstName",
+            "documentNumber",
+            "office.addressLine1",
+            "extension",
+            "charge.chargeName",
+            "boss.firstName"
+            //"order.customer.firstName"
+
           ]
 
           this.actions = true;

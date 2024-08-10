@@ -10,8 +10,8 @@
                 Filtrar
             </button>
             <mat-menu #beforeMenu="matMenu" xPosition="after">
-            <button mat-menu-item>Consultar Pagos Por cliente</button>
-            <button mat-menu-item>Consultar Por Métodos de Pago</button>
+            <button mat-menu-item (click)="filterByCustomer()">Consultar Pagos Por cliente</button>
+            <button mat-menu-item (click)="filterByPayMethod()">Consultar Por Métodos de Pago</button>
             </mat-menu>
 
      

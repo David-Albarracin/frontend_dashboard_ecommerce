@@ -34,7 +34,7 @@ export class DashboardOrdersComponent implements OnDestroy {
 
   ordersForm!: FormGroup;
   gamas: any[] = []; // Array para almacenar las gamas de orders
-  orders!:Orders
+  orders!: Orders
 
   cacheService = inject(CacheService);
   fb = inject(FormBuilder);
@@ -58,7 +58,7 @@ export class DashboardOrdersComponent implements OnDestroy {
       this.subs$.push(orders$.subscribe(res => {
         this.orders = res as Orders;
         console.log(res);
-        
+
         this.createForm(this.orders as Orders)
 
       }))
@@ -66,19 +66,19 @@ export class DashboardOrdersComponent implements OnDestroy {
 
   }
 
-  customer!:any;
-  status!:any;
-  orderType!:any;
+  customer!: any;
+  status!: any;
+  orderType!: any;
   orderDetails = signal<any[]>([]);
 
   createForm(data?: Orders): void {
-    
-    this.orderDetails.set(data?.orderDetails? data.orderDetails:[]);
+
+    this.orderDetails.set(data?.orderDetails ? data.orderDetails : []);
     // Extracting ordersGamaId from data if it exists
     this.customer = (data?.customer as Customer);
     this.status = (data?.status as Status);
     this.orderType = data?.orderType || ''
-  
+
     this.ordersForm = this.fb.group({
       //ordersId: [data?.ordersId || '', Validators.required],
       orderDate: [data?.orderDate || '', Validators.required],
@@ -88,11 +88,11 @@ export class DashboardOrdersComponent implements OnDestroy {
       status: [this.status],
       orderType: [data?.orderType || ''],
       customer: [this.customer],
-      orderDetails:[]
+      orderDetails: []
     });
   }
 
-  addNewOrderDetail(data:any){
+  addNewOrderDetail(data: any) {
     //console.log(data);
     console.log(data);
     this.orderDetails().push(data);
@@ -103,16 +103,35 @@ export class DashboardOrdersComponent implements OnDestroy {
     if (this.ordersForm.valid) {
       //console.log(typeof(this.ordersForm.value["ordersGama"]));
       //this.ordersForm.value["ordersGama"] as String
-      this.ordersForm.get("orderDetails")?.setValue(this.orderDetails());
-      console.log( this.ordersForm.value );
-      
+      this.orderDetails()
+      const order = {
+        "deliverDate":  this.ordersForm.get("deliverDate")?.value,
+        "expectedDate": this.ordersForm.get("expectedDate")?.value,
+        "orderDate": this.ordersForm.get("orderDate")?.value,
+        "customerId": this.ordersForm.get("customer")?.value.customerId,
+        "orderStatusId": this.ordersForm.get("status")?.value.orderStatusId,
+        "commentary":  this.ordersForm.get("commentary")?.value,
+        "orderType":  this.ordersForm.get("orderType")?.value.orderTypeId,
+        "orderdetails": [] as any[]
+      }
+      for (let index = 0; index < this.orderDetails().length; index++) {
+        const element = this.orderDetails()[index];
+        order.orderdetails.push({
+          "productId": element.product.productId,
+          "amount": element.amount,
+          "lineNumber": element.lineNumber,
+          "totalPrice": element.totalPrice,
+          "unitPrice": element.unitPrice
+        })
+      }
+     
       if ((this.orders as Orders).orderId) {
-        this.cacheService.httpUpdate(this.tableName, (this.orders as any).orderId, this.ordersForm.value).subscribe((res: any) => {
-          this.router.navigateByUrl("/dashboard/" + this.tableName).then(() => { this.dialog.openSuccess(res.name); })
+        this.cacheService.httpUpdate(this.tableName, (this.orders as any).orderId, order).subscribe((res: any) => {
+          this.router.navigateByUrl("/dashboard/" + this.tableName).then(() => { this.dialog.openSuccess(res.orderId); })
         })
       } else {
-        this.cacheService.httpCreate(this.tableName, this.ordersForm.value).subscribe((res: any) => {
-          this.router.navigateByUrl("/dashboard/" + this.tableName).then(() => { this.dialog.openSuccess(res.name); })
+        this.cacheService.httpCreate(this.tableName, order).subscribe((res: any) => {
+          this.router.navigateByUrl("/dashboard/" + this.tableName).then(() => { this.dialog.openSuccess(res.orderId); })
         })
       }
       // Aquí puedes llamar a tu servicio para enviar los datos

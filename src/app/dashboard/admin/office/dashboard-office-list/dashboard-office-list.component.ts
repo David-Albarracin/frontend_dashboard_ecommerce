@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CacheService } from '../../../../services/cache.service';
+import { DialogPortalService } from '../../../../services/dialog-portal.service';
 
 @Component({
   selector: 'app-dashboard-office-list',
@@ -21,6 +22,7 @@ export class DashboardOfficeListComponent implements OnInit{
 
   cacheService = inject(CacheService);
   router = inject(Router);
+  dialogPortal = inject(DialogPortalService);
 
   tableName= "oficinas"
 
@@ -59,11 +61,18 @@ export class DashboardOfficeListComponent implements OnInit{
         break;
     
       case "delete":
-        this.cacheService.httpDeleteById(this.tableName, data.row.officeId).subscribe(res => {
-          console.log(res);
-          
-        });
-        break;
+        if (confirm("Esta Seguro de Continuar").valueOf()) {
+          this.cacheService.httpDeleteById(this.tableName, data.row.officeId).subscribe((res:any) => {
+            //console.log(res);
+            if (res.officeId) {
+              this.dialogPortal.openSuccessDelete(res.officeId)
+              this.tableData = this.tableData.filter((row: any) => row.officeId !== data.row.officeId);
+            }else{
+              this.dialogPortal.openError(res)
+            }
+          });
+          break;
+        }
     }
   }
 

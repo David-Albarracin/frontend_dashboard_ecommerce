@@ -62,16 +62,18 @@ export class DashboardEmployeeComponent implements OnDestroy {
 
   }
 
-  officeId!:any
-  chargeId!:any
-  bossId!: any
-
+  office!:any
+  charge!:any
+  boss!: any
+  documentType!:any
 
   createForm(data?: Employee): void {
     // Extracting employeeGamaId from data if it exists
-    this.officeId = (data?.office as Office)?.officeId || '';
-    this.chargeId = (data?.charge as Charge)?.chargeId || '';
-    this.bossId = (data?.boss as Employee)?.employeeId || '';
+    this.office = (data?.office as Office) || '';
+    this.charge = (data?.charge as Charge) || '';
+    this.boss = (data?.boss as Employee) || '';
+    this.documentType = (data?.documentType) || '';
+
 
     // Initializing the form with default values or provided data
 
@@ -82,12 +84,12 @@ export class DashboardEmployeeComponent implements OnDestroy {
       firstSurname: [data?.firstSurname || ''],
       secondSurname: [data?.secondSurname || ''],
       documentNumber: [data?.documentNumber || ''],
-      documentType: [data?.documentType || ''],
+      documentType: [this.documentType || ''],
       phoneNumber: [data?.phoneNumber, Validators.required],
-      office: [this.officeId || ''],
+      office: [this.office || ''],
       extension: [data?.extension || ''],
-      charge: [this.chargeId || ''],
-      boss: [this.bossId || '']
+      charge: [this.charge || ''],
+      boss: [this.boss]
     });
   }
 
@@ -95,28 +97,40 @@ export class DashboardEmployeeComponent implements OnDestroy {
     if (this.employeeForm.valid) {
       //console.log(typeof(this.employeeForm.value["employeeGama"]));
       //this.employeeForm.value["employeeGama"] as String
+      const employee = {
+        "firstName": this.employeeForm.get("firstName")?.value,
+        "secondName": this.employeeForm.get("secondName")?.value,
+        "firstSurname": this.employeeForm.get("firstSurname")?.value,
+        "secondSurname": this.employeeForm.get("secondSurname")?.value,
+        "documentNumber": this.employeeForm.get("documentNumber")?.value,
+        "documentType": this.employeeForm.get("documentType")?.value,
+        "phoneNumber": this.employeeForm.get("phoneNumber")?.value,
+        "officeId": this.employeeForm.get("office")?.value.officeId,
+        "extension": this.employeeForm.get("extension")?.value,
+        "charge": this.employeeForm.get("charge")?.value,
+        "bossId": this.employeeForm.get("boss")?.value.employeeId,
+    }
+
+
       if ((this.employee as any).employeeId) {
-        this.cacheService.httpUpdate(this.tableName, (this.employee as any).employeeId, this.employeeForm.value).subscribe((res: any) => {
-          this.router.navigateByUrl("/dashboard/" + this.tableName).then(() => { this.dialog.openSuccess(res.name); })
+        this.cacheService.httpUpdate(this.tableName, (this.employee as any).employeeId, employee).subscribe((res: any) => {
+          this.router.navigateByUrl("/dashboard/" + this.tableName).then(() => { this.dialog.openSuccess(res.firstName); })
         })
       } else {
-        this.cacheService.httpCreate(this.tableName, this.employeeForm.value).subscribe((res: any) => {
-          this.router.navigateByUrl("/dashboard/" + this.tableName).then(() => { this.dialog.openSuccess(res.name); })
+        this.cacheService.httpCreate(this.tableName, employee).subscribe((res: any) => {
+          this.router.navigateByUrl("/dashboard/" + this.tableName).then(() => { this.dialog.openSuccess(res.firstName); })
         })
       }
       // Aquí puedes llamar a tu servicio para enviar los datos
     }
   }
 
-  handleSelectChangeGama(data: any): void {
-
-    this.employeeForm.get('employeeGama')!.setValue(data);
+  handleSelectChange(data: any, rowName:string): void {
+    this.employeeForm.get(rowName)!.setValue(data);
   }
 
-  
-  handleSelectChangeProvider(data: any): void {
-
-    this.employeeForm.get('supplier')!.setValue(data);
+  handleSelectChangeDocument(data: any, rowName:string): void {
+    this.employeeForm.get(rowName)!.setValue(data.documentTypeId);
   }
 
   ngOnDestroy() {

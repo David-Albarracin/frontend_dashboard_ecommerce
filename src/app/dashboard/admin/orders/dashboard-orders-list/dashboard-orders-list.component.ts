@@ -80,11 +80,18 @@ export class DashboardOrdersListComponent implements OnInit{
         break;
     
       case "delete":
-        this.cacheService.httpDeleteById(this.tableName, data.row.orderId).subscribe(res => {
-          console.log(res);
-          
-        });
-        break;
+        if (confirm("Esta Seguro de Continuar").valueOf()) {
+          this.cacheService.httpDeleteById(this.tableName, data.row.orderId).subscribe((res:any) => {
+            //console.log(res);
+            if (res.orderId) {
+              this.dialogPortal.openSuccessDelete(res.orderId)
+              this.tableData = this.tableData.filter((row: any) => row.orderId !== data.row.orderId);
+            }else{
+              this.dialogPortal.openError(res)
+            }
+          });
+          break;
+        }
     }
   }
 

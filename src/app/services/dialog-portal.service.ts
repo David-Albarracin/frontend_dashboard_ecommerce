@@ -31,6 +31,13 @@ export class DialogPortalService {
     })
   }
 
+  openSuccessDelete(res:any){
+    this.dialog.open(ErrorDialogComponent, {
+      width: '350px',
+      data: { type:"success", message: `Se Borro ${res} Correctamente`}
+    })
+  }
+
   openFilterDialog(typeSelect:string, tableName: string){
     this.dialog.open(DashboardNotificationsComponent, {
       width: '350px',

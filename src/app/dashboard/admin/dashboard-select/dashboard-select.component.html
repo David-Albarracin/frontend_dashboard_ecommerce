@@ -1,6 +1,6 @@
 <form [formGroup]="formSelect">
     <mat-form-field class="w-100">
-        <mat-label>{{selectConfig.tableName}}</mat-label>
+        <mat-label>{{title}}</mat-label>
         <mat-select formControlName="onSelect" [compareWith]="objectComparisonFunction" (selectionChange)="selectChange()">
             @for (data of selectData; track $index) {
             <mat-option class="text-capitalize" [value]="data">

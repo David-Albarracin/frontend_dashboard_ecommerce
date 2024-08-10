@@ -44,7 +44,7 @@
                     tableName: 'document-type'
                 }"
                 [dataSelected]="documentType"
-                (selectChanges)="handleSelectChangeDocumentType($event)"
+                (selectChanges)="handleSelectChange($event, 'documentType', 'documentTypeId')"
             >
             </app-dashboard-select>
         </div>
@@ -58,9 +58,13 @@
                     tableName: 'empleados'
                 }"
                 [dataSelected]="employee"
-                (selectChanges)="handleSelectChangeEmployee($event)"
+                (selectChanges)="handleSelectChange($event, 'employee', 'employeeId')"
             >
             </app-dashboard-select>
+        </div>
+
+        <div>
+            <app-dashboard-phones (actionClicked)="addOption($event)" [addresses]="addresses" [phones]="phones"></app-dashboard-phones>
         </div>
 
         <button mat-flat-button color="primary" type="submit">Submit</button>

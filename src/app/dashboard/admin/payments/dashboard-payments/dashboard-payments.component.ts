@@ -86,11 +86,11 @@ export class DashboardPaymentsComponent implements OnDestroy {
       //this.transactionsForm.value["transactionsGama"] as String
       if ((this.transactions as Transactions).transactionId) {
         this.cacheService.httpUpdate(this.tableName, (this.transactions as any).transactionId, this.transactionsForm.value).subscribe((res: any) => {
-          this.router.navigateByUrl("/dashboard/" + this.tableName).then(() => { this.dialog.openSuccess(res.name); })
+          this.router.navigateByUrl("/dashboard/" + this.tableName).then(() => { this.dialog.openSuccess(res.transactionId); })
         })
       } else {
         this.cacheService.httpCreate(this.tableName, this.transactionsForm.value).subscribe((res: any) => {
-          this.router.navigateByUrl("/dashboard/" + this.tableName).then(() => { this.dialog.openSuccess(res.name); })
+          this.router.navigateByUrl("/dashboard/" + this.tableName).then(() => { this.dialog.openSuccess(res.transactionId); })
         })
       }
       // Aquí puedes llamar a tu servicio para enviar los datos

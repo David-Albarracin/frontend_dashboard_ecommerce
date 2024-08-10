@@ -33,7 +33,7 @@ export class DashboardSelectComponent implements OnChanges {
     onSelect: [] // Default value can be set to null or a default object
   });
   //objectSelect:any
-  
+  title!:string;
 
   selectChange(){    
     this.selectChanges.emit(this.formSelect.get("onSelect")?.value);
@@ -41,6 +41,7 @@ export class DashboardSelectComponent implements OnChanges {
   
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['selectConfig']) {
+      this.title = this.selectConfig.tableName
       switch (this.selectConfig.tableName) {
         case "order-type":
           this.selectData = [{name:"COMPRA", orderTypeId:"COMPRA"}, {name:"VENTA", orderTypeId:"VENTA"}]
@@ -53,14 +54,20 @@ export class DashboardSelectComponent implements OnChanges {
             { documentTypeId: 'PASAPORTE', name: 'PASAPORTE' }
         ];
           break;
+
       
         default:
+          if (this.selectConfig.tableName == 'boss') {
+            this.selectConfig.tableName = 'empleados'
+          }
           this.cacheService.httpGetList(this.selectConfig.tableName).subscribe((res) => {        
             this.selectData = res;
             //console.log(res);
             
           })
           break;
+
+
       }
 
     }

@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CacheService } from '../../../../services/cache.service';
+import { DialogPortalService } from '../../../../services/dialog-portal.service';
 
 @Component({
   selector: 'app-dashboard-employee-list',
@@ -21,6 +22,7 @@ export class DashboardEmployeeListComponent implements OnInit{
 
   cacheService = inject(CacheService);
   router = inject(Router);
+  dialogPortal = inject(DialogPortalService);
 
   tableName= "empleados"
 
@@ -61,12 +63,28 @@ export class DashboardEmployeeListComponent implements OnInit{
         break;
     
       case "delete":
-        this.cacheService.httpDeleteById(this.tableName, data.row.employeeId).subscribe(res => {
-          console.log(res);
-          
-        });
+        if (confirm("Esta Seguro de Continuar").valueOf()) {
+          this.cacheService.httpDeleteById(this.tableName, data.row.employeeId).subscribe((res:any) => {
+            //console.log(res);
+            if (res.firstName) {
+              this.dialogPortal.openSuccessDelete(res.firstName)
+              this.tableData = this.tableData.filter((row: any) => row.employeeId !== data.row.employeeId);
+            }else{
+              this.dialogPortal.openError(res)
+            }
+          });
+          break;
+        }
         break;
     }
+  }
+
+  filterByOrders(){
+    this.dialogPortal.openFilterDialog('orders', this.tableName)
+  }
+
+  filterByOffice(){
+    this.dialogPortal.openFilterDialog('office', this.tableName)
   }
 
 }

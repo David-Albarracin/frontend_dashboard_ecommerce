@@ -69,7 +69,7 @@ export class DashboardOfficeComponent implements OnDestroy {
 
   createForm(data?: Office): void {
     // Extracting officeGamaId from data if it exists
-    this.cityId = (data?.city as City)?.cityId || '';
+    this.cityId = (data?.city as City) || '';
 
 
     // Initializing the form with default values or provided data
@@ -88,11 +88,11 @@ export class DashboardOfficeComponent implements OnDestroy {
       //this.officeForm.value["officeGama"] as String
       if ((this.office as any).officeId) {
         this.cacheService.httpUpdate(this.tableName, (this.office as any).officeId, this.officeForm.value).subscribe((res: any) => {
-          this.router.navigateByUrl("/dashboard/" + this.tableName).then(() => { this.dialog.openSuccess(res.name); })
+          this.router.navigateByUrl("/dashboard/" + this.tableName).then(() => { this.dialog.openSuccess(res.addressLine1); })
         })
       } else {
         this.cacheService.httpCreate(this.tableName, this.officeForm.value).subscribe((res: any) => {
-          this.router.navigateByUrl("/dashboard/" + this.tableName).then(() => { this.dialog.openSuccess(res.name); })
+          this.router.navigateByUrl("/dashboard/" + this.tableName).then(() => { this.dialog.openSuccess(res.addressLine1); })
         })
       }
       // Aquí puedes llamar a tu servicio para enviar los datos
@@ -100,7 +100,7 @@ export class DashboardOfficeComponent implements OnDestroy {
   }
 
   handleSelectChange(data: any, rowName:string): void {
-    this.officeForm.get(rowName)!.setValue(data.cityId);
+    this.officeForm.get(rowName)!.setValue(data);
   }
 
 

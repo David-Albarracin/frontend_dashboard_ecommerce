@@ -43,9 +43,49 @@ export class DashboardNotificationsComponent implements OnInit{
        case "status":
 
         this.selectConfigData = {
-          dataId: 'statusId',
+          dataId: 'orderStatusId',
           dataName: ['name'],
           tableName: 'estados'
+        }
+        this.title =  `Buscar ${this.data.tableName} por estado de pedidos`
+        break;
+
+        case "customer":
+
+        this.selectConfigData = {
+          dataId: 'customerId',
+          dataName: ['firstName'],
+          tableName: 'clientes'
+        }
+        this.title =  `Buscar ${this.data.tableName} por estado de pedidos`
+        break;
+
+        case "paymethod":
+
+        this.selectConfigData = {
+          dataId: 'payMethodId',
+          dataName: ['name'],
+          tableName: 'pay-method'
+        }
+        this.title =  `Buscar ${this.data.tableName} por estado de pedidos`
+        break;
+
+        case "orders":
+
+        this.selectConfigData = {
+          dataId: 'orderId',
+          dataName: ['orderId','orderDate'],
+          tableName: 'pedidos'
+        }
+        this.title =  `Buscar ${this.data.tableName} por estado de pedidos`
+        break;
+
+        case "office":
+
+        this.selectConfigData = {
+          dataId: 'officeId',
+          dataName: ['officeId'],
+          tableName: 'oficinas'
         }
         this.title =  `Buscar ${this.data.tableName} por estado de pedidos`
         break;
@@ -65,7 +105,7 @@ export class DashboardNotificationsComponent implements OnInit{
     if (this.selectData) {
       const tableName = encodeURIComponent(this.data.tableName);
       const filterBy = encodeURIComponent(this.data.typeSelect);
-      const filterData = encodeURIComponent(this.selectData);
+      const filterData = encodeURIComponent(this.selectData[this.selectConfigData.dataId]);
 
       // Navegar con parámetros de consulta
       this.router.navigate(['/dashboard/filtro'], {
@@ -82,6 +122,6 @@ export class DashboardNotificationsComponent implements OnInit{
   }
 
   handleSelectChange(data:any){
-    this.selectData = data    
+    this.selectData = data
   }
 }

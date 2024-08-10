@@ -10,7 +10,8 @@
                 Filtrar
             </button>
             <mat-menu #beforeMenu="matMenu" xPosition="after">
-            <button mat-menu-item>Consultar Empleados Por Pedidos</button>
+            <button (click)="filterByOrders()" mat-menu-item>Consultar Empleados Por Pedidos</button>
+            <button (click)="filterByOffice()" mat-menu-item>Consultar Empleados Por Oficina</button>
             </mat-menu>
 
         </div>
