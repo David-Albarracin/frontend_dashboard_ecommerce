@@ -32,7 +32,7 @@ export class DashboardEmployeeComponent implements OnDestroy {
 
   employeeForm!: FormGroup;
   gamas: any[] = []; // Array para almacenar las gamas de 
-  employee!: {}
+  employee!:any
 
   cacheService = inject(CacheService);
   fb = inject(FormBuilder);
@@ -98,6 +98,7 @@ export class DashboardEmployeeComponent implements OnDestroy {
       //console.log(typeof(this.employeeForm.value["employeeGama"]));
       //this.employeeForm.value["employeeGama"] as String
       const employee = {
+        "employeeId": this.employee.employeeId? this.employee.employeeId:'',
         "firstName": this.employeeForm.get("firstName")?.value,
         "secondName": this.employeeForm.get("secondName")?.value,
         "firstSurname": this.employeeForm.get("firstSurname")?.value,

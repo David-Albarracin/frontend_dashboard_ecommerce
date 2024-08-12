@@ -45,7 +45,7 @@ export class DashboardListComponent implements OnInit {
       this.tableName = tableName;
 
 
-      this.cacheService.httpGetList(tableName, `by${filterBy}/${filterData}`).subscribe(res => {
+      this.cacheService.httpGetList(tableName, `by${filterBy}${filterData? '/'+filterData:''}`).subscribe(res => {
         this.tableData = res;
         this.actions = true;
 
@@ -118,6 +118,19 @@ export class DashboardListComponent implements OnInit {
             //"order.customer.firstName"
 
           ]
+
+          if (filterBy == 'orders' ) {
+            this.tableHeader = [
+              "employeeId",
+              "firstName",
+              "documentNumber",
+              "phoneNumber",
+              //"customers.firstName",
+              //"charge.chargeName",
+              //"boss.firstName"
+              //"order.customer.firstName"
+            ]
+          }
 
           this.actions = true;
 

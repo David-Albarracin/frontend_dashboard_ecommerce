@@ -56,40 +56,58 @@ export class DashboardPaymentsComponent implements OnDestroy {
       this.subs$.push(transactions$.subscribe(res => {
         this.transactions = res;
         this.createForm(this.transactions as Transactions)
-
       }))
     }))
 
   }
 
-  payMethod!:any;
-  order!:any;
+  payMethod!: any;
+  order!: any;
 
   createForm(data?: Transactions): void {
     // Extracting transactionsGamaId from data if it exists
+    const now = new Date();
     this.payMethod = (data?.payMethod as PayMethods) || '';
     this.order = (data?.order as Orders) || '';
-  
+
     this.transactionsForm = this.fb.group({
-      transactionId: [data?.transactionId || '', [Validators.required]],
+      transactionId: [data?.transactionId || ''],
       amount: [data?.amount || ''],
-      transactionDate: [data?.transactionDate || ''],
-      payMethod: [this.payMethod|| ''],
+      transactionDate: [data?.transactionDate || this.formatDate(now)],
+      payMethod: [this.payMethod || ''],
       order: [this.order || ''],
-     
+
     });
   }
 
+  formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const day = ('0' + date.getDate()).slice(-2);
+    const hours = ('0' + date.getHours()).slice(-2);
+    const minutes = ('0' + date.getMinutes()).slice(-2);
+    const seconds = ('0' + date.getSeconds()).slice(-2);
+
+    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+  }
+
   onSubmit(): void {
+    const transaction = {
+      "amount": this.transactionsForm.get("amount")?.value,
+      "transactionDate": this.transactionsForm.get("transactionDate")?.value,
+      "payMethod": this.transactionsForm.get("payMethod")?.value.payMethodId,
+      "order": this.transactionsForm.get("order")?.value.orderId,
+    }
+
     if (this.transactionsForm.valid) {
       //console.log(typeof(this.transactionsForm.value["transactionsGama"]));
       //this.transactionsForm.value["transactionsGama"] as String
       if ((this.transactions as Transactions).transactionId) {
-        this.cacheService.httpUpdate(this.tableName, (this.transactions as any).transactionId, this.transactionsForm.value).subscribe((res: any) => {
+        this.cacheService.httpUpdate(this.tableName, (this.transactions as any).transactionId, transaction).subscribe((res: any) => {
           this.router.navigateByUrl("/dashboard/" + this.tableName).then(() => { this.dialog.openSuccess(res.transactionId); })
         })
       } else {
-        this.cacheService.httpCreate(this.tableName, this.transactionsForm.value).subscribe((res: any) => {
+        this.cacheService.httpCreate(this.tableName, transaction).subscribe((res: any) => {
           this.router.navigateByUrl("/dashboard/" + this.tableName).then(() => { this.dialog.openSuccess(res.transactionId); })
         })
       }
@@ -97,7 +115,7 @@ export class DashboardPaymentsComponent implements OnDestroy {
     }
   }
 
-  handleSelectChange(data: any, rowName:string): void {
+  handleSelectChange(data: any, rowName: string): void {
     this.transactionsForm.get(rowName)!.setValue(data);
   }
 

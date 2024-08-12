@@ -111,12 +111,13 @@ export class DashboardOrdersComponent implements OnDestroy {
         "customerId": this.ordersForm.get("customer")?.value.customerId,
         "orderStatusId": this.ordersForm.get("status")?.value.orderStatusId,
         "commentary":  this.ordersForm.get("commentary")?.value,
-        "orderType":  this.ordersForm.get("orderType")?.value.orderTypeId,
+        "orderType":  this.ordersForm.get("orderType")?.value,
         "orderdetails": [] as any[]
       }
       for (let index = 0; index < this.orderDetails().length; index++) {
         const element = this.orderDetails()[index];
         order.orderdetails.push({
+          "orderDetailId": element.orderDetailId? element.orderDetailId: '',
           "productId": element.product.productId,
           "amount": element.amount,
           "lineNumber": element.lineNumber,
@@ -143,7 +144,7 @@ export class DashboardOrdersComponent implements OnDestroy {
   }
 
   orderTypeSelect(data: any): void {
-    this.ordersForm.get("orderType")!.setValue(data);
+    this.ordersForm.get("orderType")!.setValue(data.orderTypeId);
   }
 
   statusSelect(data: any): void {

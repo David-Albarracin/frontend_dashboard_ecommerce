@@ -80,7 +80,16 @@ export class DashboardEmployeeListComponent implements OnInit{
   }
 
   filterByOrders(){
-    this.dialogPortal.openFilterDialog('orders', this.tableName)
+    const params = {
+      tableName: this.tableName,
+      filterBy: 'orders',
+      //filterData: '1'
+    };
+
+    // Navega a la URL con los parámetros
+    this.router.navigate(['dashboard/filtro'], { queryParams: params });
+    //this.router.navigateByUrl(`/dashboard/filter/${this.tableName}/orders`)
+    //this.dialogPortal.openFilterDialog('orders', this.tableName)
   }
 
   filterByOffice(){

@@ -117,12 +117,12 @@ export class DashboardCustomersComponent implements OnDestroy {
 
       if ((this.customer as any).customerId) {
         this.cacheService.httpUpdate(this.tableName, (this.customer as any).customerId, customer).subscribe((res: any) => {
-          this.router.navigateByUrl("/dashboard/" + this.tableName).then(() => { this.dialog.openSuccess(res.name); })
+          this.router.navigateByUrl("/dashboard/" + this.tableName).then(() => { this.dialog.openSuccess(res.firstName); })
         })
       } else {
         console.log(this.customerForm.value);
         this.cacheService.httpCreate(this.tableName, customer).subscribe((res: any) => {  
-          this.router.navigateByUrl("/dashboard/" + this.tableName).then(() => { this.dialog.openSuccess(res.name); })
+          this.router.navigateByUrl("/dashboard/" + this.tableName).then(() => { this.dialog.openSuccess(res.firstName); })
         })
       }
       // Aquí puedes llamar a tu servicio para enviar los datos
